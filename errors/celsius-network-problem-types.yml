@@ -1,0 +1,139 @@
+generated: '2026-08-02'
+method: searched
+source:
+- https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ
+- openapi/celsius-network-partner-api-openapi.yml
+format: custom
+rfc9457: false
+envelope:
+  media_type: application/json
+  identifier_field: slug
+  message_field: message
+  legacy_message_field: msg
+  note: >-
+    Every error in this catalog was harvested from a published example response in the
+    first-party Celsius Postman collection. `slug` is the stable machine-readable code;
+    `message` is prose that varies by jurisdiction and by product. Older endpoints returned
+    only `msg` with no `slug` - the official SDK treated those as a ValidationError because
+    it could not map them to a code.
+problems:
+- slug: COMPLIANCE_ERROR
+  status: 401
+  title: Blocked by compliance
+  message: >-
+    Due to local laws and regulations, Celsius cannot provide its services to individuals
+    from your region. For additional support, contact app@celsius.network.
+  variants:
+  - Due to local laws and regulations, Celsius app is not available for users from <Country>, <State>.
+  - Due to local laws and regulations, deposits are temporarily unavailable to residents of <COUNTRY>.
+  - Due to local laws and regulations, withdrawals are temporarily unavailable to residents of <Country>.
+  remediation: >-
+    Jurisdictional block, not a credential problem. Not retryable. The user's country or state
+    is outside the served footprint, or the specific action (deposit or withdrawal) is
+    suspended there. Withdrawal generally remained available even when deposits were blocked.
+  source_operations:
+  - getBalanceSummary
+  - getCoinBalance
+  - getInterestSummary
+  - getTransactionSummary
+  - getCoinTransactions
+  - getTransactionStatus
+  - getDeposit
+  - withdraw
+  - verifyKyc
+- slug: KYC_PERMANENTLY_REJECTED
+  status: 422
+  title: KYC permanently rejected
+  message: KYC was permanently rejected.
+  remediation: >-
+    Terminal state. No further KYC verification can be started for this user; resubmitting
+    documents will not clear it.
+  source_operations: [verifyKyc, startKycVerification]
+- slug: KYC_PASSED
+  status: 422
+  title: KYC already passed
+  message: KYC already passed.
+  remediation: The user is already verified. Read state with getKycStatus instead of resubmitting.
+  source_operations: [verifyKyc, startKycVerification]
+- slug: KYC_PENDING
+  status: 422
+  title: KYC already started
+  message: KYC already started.
+  remediation: >-
+    A verification is already in progress. Poll getKycStatus until the status reaches a final
+    value (PASSED, REJECTED or PERMANENTLY_REJECTED).
+  source_operations: [verifyKyc, startKycVerification]
+- slug: COIN_NOT_FOUND
+  status: 422
+  title: Unsupported coin
+  message: Coin is invalid!
+  remediation: >-
+    The coin symbol in the path is not supported. Call getSupportedCurrencies and use a symbol
+    from that list.
+  source_operations: [getCoinBalance, getCoinTransactions, getDeposit, withdraw]
+- slug: INSUFFICIENT_FUNDS
+  status: 422
+  title: Insufficient funds
+  message: Insufficient funds.
+  remediation: >-
+    The requested withdrawal exceeds the available balance. Read getCoinBalance and retry with
+    an amount within it.
+  source_operations: [withdraw]
+- slug: INVALID_ADDRESS_FOR_WITHDRAWAL_SCHEME
+  status: 422
+  title: Address rejected by the partner withdrawal scheme
+  message: Invalid address provided for partner's withdrawal scheme.
+  remediation: >-
+    The destination address is not permitted by the partner's configured withdrawal scheme
+    (no address / list of pre-approved addresses / any address). Read the permitted addresses
+    with getWithdrawalAddresses or getWithdrawalAddressForCoin.
+  source_operations: [withdraw]
+- slug: DUST_CHECK_FAILED
+  status: 400
+  title: Withdrawal below the minimum
+  message: You cannot withdraw less than 1$.
+  remediation: >-
+    The withdrawal is below the one-US-dollar minimum. Increase the amount. Not retryable
+    unchanged.
+  source_operations: [withdraw]
+- slug: BAD_TRANSACTION_ID_FORMAT
+  status: 422
+  title: Malformed transaction id
+  message: Bad transaction id format.
+  remediation: The transaction id is not a well-formed Celsius transaction UUID.
+  source_operations: [getTransactionStatus]
+- slug: WRONG_TRANSACTION_ID
+  status: 400
+  title: Unknown transaction id
+  message: Wrong transaction id.
+  remediation: >-
+    The transaction id is well formed but does not exist for this user. Also observed as a
+    422 with only a `msg` field and no `slug` on older endpoints.
+  source_operations: [getTransactionStatus]
+- slug: null
+  status: 400
+  title: Missing mandatory field
+  message: The field first_name is mandatory.
+  remediation: >-
+    Form validation failure on a KYC or user submission. The message names the missing field.
+    No slug is returned, so the SDK surfaced this as a ValidationError carrying the raw
+    response.
+  source_operations: [verifyKyc, createUser, updateUser]
+- slug: null
+  status: 503
+  title: No free deposit addresses available
+  message: No free addresses available.
+  remediation: >-
+    Transient capacity condition in the deposit address pool. Retry later; this is the one
+    documented error that is safely retryable.
+  source_operations: [getDeposit]
+sdk_errors:
+  note: >-
+    Client-side errors raised by celsius-sdk@1.0.0 before or after the HTTP call, not returned
+    by the API.
+  errors:
+  - {code: INVALID_AUTH_METHOD, message: Invalid authentication method provided.}
+  - {code: RESPONSE_VERIFICATION_FAILED, message: Response signature verification failed.}
+  - {code: INVALID_PARTNER_KEY, message: Partner key can not be null.}
+  - {code: NO_PUBLIC_KEY, message: No public key provided.}
+  - {code: NO_SIGNATURE_PROVIDED, message: No signature was provided for verification.}

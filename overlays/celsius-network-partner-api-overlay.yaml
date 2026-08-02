@@ -1,0 +1,72 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Celsius Partner API
+  version: 1.0.0
+x-generated: '2026-08-02'
+x-method: generated
+x-source: openapi/celsius-network-partner-api-openapi.yml
+extends: openapi/celsius-network-partner-api-openapi.yml
+actions:
+- target: $.info
+  description: Record provenance and retirement state on the document.
+  update:
+    x-apievangelist-provenance:
+      derived_by: API Evangelist enrichment pipeline
+      derived_on: '2026-08-02'
+      sources:
+      - https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ
+      - https://registry.npmjs.org/celsius-sdk/-/celsius-sdk-1.0.0.tgz
+      fabrication: none
+    x-apievangelist-lifecycle:
+      status: retired
+      sunset: '2024-02-29'
+      reason: Chapter 11 wind-down of Celsius Network LLC
+      detail: lifecycle/celsius-network-lifecycle.yml
+- target: $.info
+  description: Cross-link the derived artifacts that describe this contract.
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/celsius-network-authentication.yml
+      conventions: conventions/celsius-network-conventions.yml
+      errors: errors/celsius-network-problem-types.yml
+      data_model: data-model/celsius-network-data-model.yml
+      conformance: conformance/celsius-network-conformance.yml
+      lifecycle: lifecycle/celsius-network-lifecycle.yml
+      sandbox: sandbox/celsius-network-sandbox.yml
+      packages: packages/celsius-network-packages.yml
+      skills: skills/_index.yml
+- target: $.paths['/wallet/{coin}/withdraw'].post
+  description: >-
+    Flag the one operation that moves customer funds irreversibly and has no idempotency key.
+  update:
+    x-apievangelist-consequence: physical
+    x-apievangelist-idempotent: false
+    x-apievangelist-retry-guidance: >-
+      Not safe to retry blindly - there is no idempotency key. On timeout or ambiguous
+      failure, read state back with getTransactionSummary or getTransactionStatus before
+      re-issuing.
+- target: $.paths['/kyc'].post
+  description: Flag the operation that accepts personally identifiable information.
+  update:
+    x-apievangelist-pii: true
+    x-apievangelist-pii-fields: [first_name, last_name, middle_name, date_of_birth, ssn, itin, national_id, street, building_number, flat_number, zip, city, state, country, citizenship, gender, document_front_image, document_back_image]
+- target: $.paths['/users'].post
+  description: Flag the operation that accepts personally identifiable information.
+  update:
+    x-apievangelist-pii: true
+- target: $.paths['/users/{userId}'].put
+  description: Flag the operation that accepts personally identifiable information.
+  update:
+    x-apievangelist-pii: true
+- target: $.components.securitySchemes.partnerToken
+  description: Note that the partner token is a bearer-equivalent secret with no scoping.
+  update:
+    x-apievangelist-note: >-
+      Unscoped partner-wide secret. Compromise exposes every user under the partner. Keys were
+      issued in the Celsius app under Profile > Settings > API Authorization, where per-key
+      permissions could be selected, but the permission model was never published.
+- target: $.components.schemas.Error
+  description: Point at the harvested error catalog.
+  update:
+    x-apievangelist-catalog: errors/celsius-network-problem-types.yml
+    x-apievangelist-rfc9457: false

@@ -1,0 +1,46 @@
+generated: '2026-08-02'
+method: searched
+source: https://registry.npmjs.org/celsius-sdk
+notes: >-
+  Registries probed 2026-08-02: npm, PyPI, RubyGems, Packagist, crates.io, Maven Central,
+  NuGet, pkg.go.dev. Only one first-party Celsius Network client library was ever published,
+  the JavaScript/Node.js SDK on npm. It is still resolvable on the npm registry although the
+  source repository (github.com/CelsiusNetwork/celsius-js-sdk) has been removed and the
+  GitHub organization now has zero public repositories. The RubyGems gem `celsius` and the
+  crates.io crate `celsius` are unrelated third-party packages and are NOT listed here.
+packages:
+- language: javascript
+  registry: npm
+  name: celsius-sdk
+  url: https://www.npmjs.com/package/celsius-sdk
+  install: npm install celsius-sdk --save
+  official: true
+  license: Apache-2.0
+  latest_version: 1.0.0
+  first_published: '2018-12-17'
+  last_published: '2022-04-12'
+  runtime: Node.js 8.x or later (server-side only)
+  repository: https://github.com/CelsiusNetwork/celsius-js-sdk
+  repository_status: removed (HTTP 404 as of 2026-08-02)
+  maintainers:
+  - assaf_cel
+  - ronbcel290s
+  - sanjam-cel
+  covers: openapi/celsius-network-partner-api-openapi.yml
+  status: unmaintained
+  description: >-
+    The official Celsius Network SDK for JavaScript, for Node.js backends. Wraps the
+    Celsius Partner (Wallet) API, injects the X-Cel-Partner-Token plus either
+    X-Cel-User-Token or X-Cel-Api-Key depending on the configured auth method, and verifies
+    the X-Signature response signature against a per-environment RSA public key.
+not_found:
+- registry: pypi
+  searched: [celsius, celsius-sdk, celsius-network]
+- registry: rubygems
+  note: the gem `celsius` exists but is an unrelated third-party library search interface
+- registry: crates.io
+  note: the crate `celsius` exists but is an unrelated third-party weather TUI
+- registry: packagist
+- registry: maven-central
+- registry: nuget
+- registry: pkg.go.dev

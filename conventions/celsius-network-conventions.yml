@@ -1,0 +1,114 @@
+generated: '2026-08-02'
+method: searched
+source:
+- https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ
+- celsius-sdk@1.0.0 (lib/http-client.js, lib/consts.js, lib/util.js)
+- openapi/celsius-network-partner-api-openapi.yml
+summary: >-
+  Cross-cutting request and response semantics of the Celsius Partner (Wallet) API, captured
+  from the first-party Postman collection and the official JavaScript SDK. The API is retired;
+  this records how it behaved.
+authentication:
+  style: api-key-headers
+  always_required:
+    header: X-Cel-Partner-Token
+    description: Partner key issued by Celsius, sent on every authenticated request.
+  second_factor_by_partnership_type:
+  - partnership: Segmented Integration
+    header: X-Cel-User-Token
+    description: User token the partner generates for each of its end users.
+  - partnership: Omnibus Integration
+    header: X-Cel-Api-Key
+    description: API key issued by Celsius to the partner.
+  - partnership: Omnibus Treasury
+    header: X-Cel-Api-Key
+    description: API key issued by Celsius to the partner.
+  unauthenticated_operations:
+  - getHealth
+  - health
+  - getInterestRates
+  detail: authentication/celsius-network-authentication.yml
+response_integrity:
+  scheme: rsa-response-signature
+  header: X-Signature
+  description: >-
+    Every response carried an X-Signature header. The official SDK verified it against a
+    per-environment RSA public key baked into lib/config.js and rejected the response with
+    "Response signature verification failed." on mismatch, defending against
+    man-in-the-middle tampering. This is a response-integrity control, not request signing -
+    it is not HTTP Message Signatures (RFC 9421) and there was no request signing scheme.
+  verified_by_sdk: true
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    The Celsius Partner API documented no idempotency key. POST /wallet/{coin}/withdraw and
+    POST /kyc were not safe to retry blindly; the documented recovery path was to read state
+    back with getTransactionStatus or getKycStatus. No Idempotency pointer is emitted in
+    apis.yml because the contract genuinely has no idempotency support.
+pagination:
+  style: page-number
+  request_params:
+  - {name: page, in: query, type: integer, default: 1, description: Page to retrieve.}
+  - {name: per_page, in: query, type: integer, default: 20, description: Records shown per page.}
+  response_envelope:
+    wrapper: pagination
+    fields:
+    - {name: total, type: number, description: Total number of items.}
+    - {name: pages, type: number, description: Total number of pages.}
+    - {name: current, type: number, description: Current page number.}
+    - {name: per_page, type: number, description: Number of items per page.}
+    - {name: showing, type: string, description: 'Range of the first and last item, e.g. "4 - 6".'}
+  records_field: record
+  records_field_variants: [record, records]
+  records_field_note: >-
+    The documented field is `record`; several published examples in the Postman collection use
+    `records` instead. Clients had to tolerate both.
+  operations: [getTransactionSummary, getCoinTransactions]
+  default_sort: time descending
+field_expansion:
+  supported: false
+sparse_fieldsets:
+  supported: false
+filtering:
+  supported: partial
+  note: >-
+    Filtering is expressed by path rather than by query parameter - /wallet/{coin}/transactions
+    narrows to one coin. getStatistics accepts a single `timestamp` query parameter as a lower
+    time bound. There is no general filter grammar.
+metadata:
+  supported: false
+  note: >-
+    A changeMetadata SDK method existed before 1.0.0 and was removed in the 1.0.0 release, so
+    the final contract carries no user-metadata surface.
+request_tracing:
+  request_id_header: null
+  note: No correlation or request-id header was documented.
+content_types:
+  request_write: multipart/form-data
+  request_read: none (query string only)
+  response: application/json
+  note: >-
+    Every POST and PUT transmitted multipart/form-data, including document uploads for KYC.
+    The SDK enforced a 25,485,760 byte maximum upload size (MAX_UPLOAD_SIZE).
+error_envelope:
+  media_type: application/json
+  rfc9457: false
+  fields:
+  - {name: message, type: string, description: Human readable error message.}
+  - {name: msg, type: string, description: Legacy human readable error message on older endpoints.}
+  - {name: slug, type: string, description: Stable machine-readable error code, e.g. COMPLIANCE_ERROR.}
+  note: >-
+    Not RFC 9457 problem+json. The stable identifier is `slug`; `message` is prose and varies
+    by jurisdiction. Some endpoints returned `msg` with no `slug`, in which case the SDK
+    raised a ValidationError rather than a CelsiusSDKError.
+  detail: errors/celsius-network-problem-types.yml
+rate_limits:
+  documented: false
+  headers: []
+  note: No rate-limit policy or rate-limit response headers were published.
+versioning:
+  style: unversioned
+  detail: lifecycle/celsius-network-lifecycle.yml
+environments:
+  detail: sandbox/celsius-network-sandbox.yml

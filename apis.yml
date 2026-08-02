@@ -1,18 +1,84 @@
 aid: celsius-network
 name: Celsius Network
-description: 'Celsius Network is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Celsius Network LLC was a global cryptocurrency lending, custody and yield platform, founded
+  in 2017, that let retail and institutional customers earn interest on crypto deposits, borrow
+  US dollars and stablecoins against their holdings, and — through the Celsius Partner API —
+  let third-party partners embed that earning power directly into their own applications. The
+  Partner (Wallet) API exposed per-coin balances, accrued interest, transaction history,
+  deposit addresses, withdrawals, KYC verification and utility reference data across three
+  partnership models: Omnibus Integration, Omnibus Treasury, and Segmented Integration, where
+  the partner created and managed a Celsius wallet for each of its own end users. Celsius froze
+  withdrawals on 2022-06-12, filed for Chapter 11 bankruptcy on 2022-07-13, had its plan of
+  reorganization confirmed on 2023-11-09, emerged on 2024-01-31 and shut down its mobile and
+  web applications on 2024-02-29 as part of the wind-down of its business operations. The
+  Partner API and the developer portal are retired and their hosts no longer resolve. The
+  reorganized bitcoin-mining business was spun out as Ionic Digital, a separate company that
+  listed on Nasdaq under IOND on 2026-07-28. This profile preserves the API contract as a
+  historical record, derived entirely from first-party artifacts that are still publicly
+  resolvable.
+image: https://celsius.network/_next/static/media/blue_logo.6966df1d.svg
 url: https://raw.githubusercontent.com/api-evangelist/celsius-network/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment
+x-status: retired
 specificationVersion: '0.20'
 created: '2026-08-02'
 modified: '2026-08-02'
 tags:
 - Company
-apis: []
+- Cryptocurrency
+- Digital Assets
+- Financial Services
+- Lending
+- Custody
+- Wallet
+- Interest
+- KYC
+- Retired
+apis:
+- aid: celsius-network:partner-api
+  name: Celsius Partner API
+  description: >-
+    The partner-facing wallet and earning API for the Celsius Network platform, also called the
+    Wallet API. 21 paths and 24 operations across four tags — Wallet (balances, accrued
+    interest, transactions, deposit addresses, withdrawals, withdrawal addresses), KYC
+    (application submission and status), Users (partner-owned user lifecycle for Segmented
+    Integration) and Utility (interest rates, supported coins and countries, statistics, terms
+    of use, health). Authentication is by API-key headers: X-Cel-Partner-Token on every
+    request, plus X-Cel-User-Token for Segmented Integration partners or X-Cel-Api-Key for
+    Omnibus and Omnibus Treasury partners. Every response carried an X-Signature header the
+    official SDK verified against a per-environment RSA public key. RETIRED — the production
+    host no longer resolves.
+  humanURL: https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  baseURL: https://wallet-api.celsius.network
+  image: https://celsius.network/_next/static/media/blue_logo.6966df1d.svg
+  tags:
+  - Wallet
+  - Interest
+  - Transactions
+  - KYC
+  - Cryptocurrency
+  - Custody
+  properties:
+  - type: OpenAPI
+    url: openapi/celsius-network-partner-api-openapi.yml
+  - type: Overlay
+    url: overlays/celsius-network-partner-api-overlay.yaml
+  - type: Postman
+    name: Celsius API public Postman collection
+    url: https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  - type: PostmanCollection
+    name: Celsius API Postman collection (harvested verbatim)
+    url: postman/celsius-network-partner-api.postman_collection.json
+  - type: APIReference
+    url: https://documenter.getpostman.com/view/4207695/Rzn6v2mZ
+  - type: DataModel
+    url: data-model/celsius-network-data-model.yml
+  - type: ErrorCatalog
+    url: errors/celsius-network-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +86,76 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://celsius.network/
+- type: Documentation
+  name: Celsius API documentation on Postman
+  url: https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+- type: APIReference
+  url: https://documenter.getpostman.com/view/4207695/Rzn6v2mZ
+- type: Postman
+  name: Celsius Public Postman workspace
+  url: https://www.postman.com/labs-celsiusnet-decents/workspace/celsius-public/overview
+- type: GitHubOrganization
+  url: https://github.com/CelsiusNetwork
+- type: Support
+  name: Celsius distribution support (Stretto)
+  url: https://celsiusdistribution.stretto.com/support/solutions
+- type: Login
+  name: Celsius creditor claims portal
+  url: https://claimsportal.celsius.network
+- type: PrivacyPolicy
+  url: https://celsius.network/static/privacy-policy.pdf
+- type: OpenAPI
+  url: openapi/celsius-network-partner-api-openapi.yml
+- type: Overlay
+  url: overlays/celsius-network-partner-api-overlay.yaml
+- type: Packages
+  url: packages/celsius-network-packages.yml
+- type: SDKs
+  name: celsius-sdk (official JavaScript SDK)
+  url: packages/celsius-network-packages.yml
+- type: Authentication
+  url: authentication/celsius-network-authentication.yml
+- type: Conventions
+  url: conventions/celsius-network-conventions.yml
+- type: ErrorCatalog
+  url: errors/celsius-network-problem-types.yml
+- type: DataModel
+  url: data-model/celsius-network-data-model.yml
+- type: Conformance
+  url: conformance/celsius-network-conformance.yml
+- type: Lifecycle
+  url: lifecycle/celsius-network-lifecycle.yml
+- type: Deprecation
+  name: Celsius wind-down and platform sunset notice
+  url: https://celsius.network/
+- type: ChangeLog
+  url: changelog/celsius-network-changelog.yml
+- type: Sandbox
+  url: sandbox/celsius-network-sandbox.yml
+- type: WellKnown
+  url: well-known/celsius-network-well-known.yml
+- type: LLMsTxt
+  url: llms/celsius-network-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/celsius-network-agentic-access.yml
+- type: DomainSecurity
+  url: security/celsius-network-domain-security.yml
+- type: SecondaryMarket
+  name: Celsius Network on Forge Global
   url: https://forgeglobal.com/celsius-network_stock/
+x-successor:
+  name: Ionic Digital
+  relationship: >-
+    Reorganized bitcoin-mining business formed in January 2024 from the Celsius mining assets
+    under the confirmed plan of reorganization. A separate company with no Celsius API surface;
+    listed on Nasdaq under IOND on 2026-07-28.
+  url: https://ionicdigital.com/
+
+x-enrichment:
+  date: '2026-08-02'
+  status: enriched
+  artifacts_added: 20
+  pass: local-v1

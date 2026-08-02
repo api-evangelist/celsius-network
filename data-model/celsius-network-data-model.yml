@@ -1,0 +1,157 @@
+generated: '2026-08-02'
+method: derived
+source:
+- openapi/celsius-network-partner-api-openapi.yml
+- https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ
+summary: >-
+  Entity-relationship graph of the Celsius Partner (Wallet) API, derived from the OpenAPI
+  component schemas and the data-structure reference published in the first-party Postman
+  collection. The model is small and account-centric: a partner owns users, a user holds a
+  balance and accrues interest per coin, and every movement of value is a Transaction.
+entities:
+- name: Partner
+  description: >-
+    The integrating organization. Not addressable as a resource - it is the identity carried
+    by the X-Cel-Partner-Token header and it scopes everything else.
+  identified_by: X-Cel-Partner-Token
+  schema: null
+  relationships:
+  - {type: has_many, target: User, via: X-Cel-User-Token, note: Segmented Integration only}
+  - {type: has_one, target: WithdrawalScheme, via: configuration}
+- name: User
+  description: >-
+    An end user of the partner, holding a Celsius wallet. Created by createUser (Segmented
+    Integration) or implied by the partner's own account (Omnibus).
+  identified_by: userId (uuid)
+  secret: user_token, presented as X-Cel-User-Token
+  schema: CreateUserResponse
+  operations: [createUser, updateUser, updateUserEmail]
+  relationships:
+  - {type: belongs_to, target: Partner, via: X-Cel-Partner-Token}
+  - {type: has_one, target: KycApplication, via: userId}
+  - {type: has_many, target: CoinBalance, via: coin}
+  - {type: has_many, target: AccruedInterest, via: coin}
+  - {type: has_many, target: Transaction, via: userId}
+  - {type: has_many, target: WithdrawalAddress, via: coin}
+- name: KycApplication
+  description: >-
+    The user's identity verification application, with a status machine and a set of rejection
+    reasons drawn from the document/identity check vocabulary.
+  identified_by: userId
+  schema: KycStatus
+  operations: [getKycStatus, verifyKyc, getKycVerificationStatus, startKycVerification]
+  states: [COLLECTING, PENDING, PASSED, REJECTED, PERMANENTLY_REJECTED]
+  relationships:
+  - {type: belongs_to, target: User, via: userId}
+  - {type: has_many, target: RejectionReason, via: reasons}
+- name: RejectionReason
+  description: >-
+    One reason a KYC application failed. Keys of the KycStatus.reasons object; the value is
+    always the string "consider". 30 reasons are published, covering document integrity,
+    image quality, data consistency, sanctions/PEP/adverse media screening and age validation.
+  identified_by: reason key
+  schema: KycStatus.reasons
+  relationships:
+  - {type: belongs_to, target: KycApplication, via: reasons}
+- name: Coin
+  description: >-
+    A supported cryptocurrency or stablecoin, identified by its symbol. The dimension every
+    balance, interest and transaction record is keyed on.
+  identified_by: symbol (e.g. BTC, ETH, USDC, CEL)
+  schema: Currencies
+  operations: [getSupportedCurrencies]
+  relationships:
+  - {type: has_one, target: InterestRate, via: coin}
+  - {type: has_many, target: CoinBalance, via: coin}
+  - {type: has_many, target: Transaction, via: coin}
+  - {type: has_one, target: DepositAddress, via: coin}
+- name: CoinBalance
+  description: The user's holding in a single coin, plus its USD value.
+  schema: CoinBalance
+  operations: [getBalanceSummary, getCoinBalance]
+  relationships:
+  - {type: belongs_to, target: User, via: X-Cel-User-Token}
+  - {type: belongs_to, target: Coin, via: coin}
+- name: AccruedInterest
+  description: >-
+    Interest a user has accrued on holdings in one coin, split between In Kind (paid in the
+    coin) and In CEL (paid in the CEL token), plus the combined USD value.
+  schema: AccruedInterest
+  operations: [getInterestSummary]
+  relationships:
+  - {type: belongs_to, target: User, via: X-Cel-User-Token}
+  - {type: belongs_to, target: Coin, via: coin}
+- name: InterestRate
+  description: The current rate for one coin, with currency display metadata.
+  schema: InterestRate
+  operations: [getInterestRates]
+  relationships:
+  - {type: belongs_to, target: Coin, via: coin}
+- name: Transaction
+  description: >-
+    A single movement of value for a user - a deposit, a withdrawal, or an interest payment.
+    The central record of the model.
+  identified_by: id (uuid)
+  schema: Transaction
+  operations: [getTransactionSummary, getCoinTransactions, getTransactionStatus, withdraw]
+  states: [processing, unconfirmed, confirmed, rejected]
+  natures: [deposit, withdrawal, interest]
+  relationships:
+  - {type: belongs_to, target: User, via: X-Cel-User-Token}
+  - {type: belongs_to, target: Coin, via: coin}
+  - {type: has_one, target: Coin, via: original_interest_coin, note: present only when nature is interest}
+- name: DepositAddress
+  description: >-
+    The blockchain address a user deposits a given coin to. For BTC, `address` is the segwit
+    address and `addressSecondary` the legacy address.
+  schema: DepositAddress
+  operations: [getDeposit]
+  relationships:
+  - {type: belongs_to, target: User, via: X-Cel-User-Token}
+  - {type: belongs_to, target: Coin, via: coin}
+- name: WithdrawalAddress
+  description: A pre-approved destination address for a coin, under the partner's withdrawal scheme.
+  schema: WithdrawalAddresses
+  operations: [getWithdrawalAddresses, getWithdrawalAddressForCoin]
+  relationships:
+  - {type: belongs_to, target: User, via: X-Cel-User-Token}
+  - {type: belongs_to, target: Coin, via: coin}
+  - {type: constrained_by, target: WithdrawalScheme, via: partner configuration}
+- name: WithdrawalScheme
+  description: >-
+    Partner-level policy limiting where funds may be withdrawn. One of three published values:
+    no address (withdrawals disabled), list of pre-approved addresses, or any address.
+  values: [no-address, pre-approved-addresses, any-address]
+  relationships:
+  - {type: belongs_to, target: Partner, via: configuration}
+  - {type: constrains, target: WithdrawalAddress, via: coin}
+- name: Pagination
+  description: >-
+    Envelope wrapping any paged collection. Not a domain entity but a shared structure on
+    every transaction listing.
+  schema: Pagination
+  relationships:
+  - {type: wraps, target: Transaction, via: record}
+- name: Country
+  description: A country supported for KYC verification, with ISO codes, calling codes, currencies and languages.
+  schema: Country
+  operations: [getSupportedCountries]
+  relationships:
+  - {type: constrains, target: KycApplication, via: country}
+- name: Statistics
+  description: >-
+    Aggregate deposit, withdrawal and interest counts and amounts, rolled up to a total USD
+    figure plus a per-coin breakdown.
+  schema: Statistics
+  operations: [getStatistics]
+  relationships:
+  - {type: aggregates, target: Transaction, via: nature}
+id_conventions:
+  user_id: uuid
+  transaction_id: uuid
+  coin: uppercase symbol string; note that getBalanceSummary keys its balance map in lowercase
+  amounts: >-
+    Numeric strings, not floats. `amount` is rounded down to the last significant decimal
+    place; `amount_precise` carries the unrounded value. USD conversions are taken at the
+    transaction's `time`.
+render: null

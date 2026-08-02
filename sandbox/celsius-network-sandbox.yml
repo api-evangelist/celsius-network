@@ -1,0 +1,61 @@
+generated: '2026-08-02'
+method: searched
+source:
+- celsius-sdk@1.0.0 (lib/config.js, lib/consts.js)
+- https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ
+status: retired
+summary: >-
+  Celsius ran a two-environment model - staging and production - selected by the SDK's
+  `environment` configuration value. Both hosts have been decommissioned; neither resolves in
+  DNS as of 2026-08-02. No test card numbers, magic identifiers, fixture triggers or test
+  clocks were ever published: the staging environment was a full separate deployment with
+  partner-issued credentials rather than a set of magic values.
+environments:
+- name: staging
+  role: sandbox
+  base_url: https://wallet-api.staging.celsius.network
+  sdk_constant: ENVIRONMENT.STAGING ('staging')
+  dns: NXDOMAIN
+  checked: '2026-08-02'
+  swagger_ui: https://wallet-api.staging.celsius.network/api-doc
+  swagger_ui_note: >-
+    The SDK repository shipped a Swagger UI page (docs/swagger/index.html) pointed at
+    /api-doc on the staging host. That endpoint is unreachable, so the live OpenAPI it once
+    rendered could not be harvested. openapi/celsius-network-partner-api-openapi.yml is
+    derived from the Postman collection and the SDK source instead.
+- name: production
+  role: live
+  base_url: https://wallet-api.celsius.network
+  sdk_constant: ENVIRONMENT.PRODUCTION ('production')
+  dns: NXDOMAIN
+  checked: '2026-08-02'
+credential_separation:
+  model: per-environment partner credentials
+  key_prefixes: []
+  note: >-
+    Celsius used no test/live key prefix convention. The same header names carried both
+    environments' credentials; separation was by base URL and by which key the partner was
+    issued. Keys were generated in the Celsius app under Profile > Settings > API
+    Authorization, where the partner also chose the permissions granted to the key.
+  headers: [X-Cel-Partner-Token, X-Cel-User-Token, X-Cel-Api-Key]
+response_signing:
+  note: >-
+    Each environment had its own RSA public key, shipped in the SDK's lib/config.js, used to
+    verify the X-Signature response header. A client configured for staging could not verify
+    production responses and vice versa.
+collection_variables:
+  note: >-
+    The public Postman collection parameterises credentials rather than publishing them.
+    No real or test secret values are present in the collection.
+  variables:
+  - {name: base_url, description: Environment base URL, published_value: null}
+  - {name: test_partner_token, description: Partner key placeholder, published_value: null}
+  - {name: test_user_token, description: Segmented Integration user token placeholder, published_value: null}
+  - {name: test_api_key, description: Omnibus API key placeholder, published_value: null}
+test_values:
+  cards: []
+  bank_accounts: []
+  magic_identifiers: []
+  test_clocks: false
+  fixtures: false
+  note: None published.

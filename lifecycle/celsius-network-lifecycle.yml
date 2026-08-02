@@ -1,0 +1,69 @@
+generated: '2026-08-02'
+method: searched
+source: https://celsius.network/
+status: retired
+summary: >-
+  The Celsius Partner (Wallet) API is retired. Celsius Network froze withdrawals in June 2022,
+  filed for Chapter 11 in the Southern District of New York on 2022-07-13, had its plan of
+  reorganization confirmed on 2023-11-09, emerged from Chapter 11 on 2024-01-31, and shut down
+  its mobile and web applications on 2024-02-29 as part of the wind-down of its business
+  operations. The production API host wallet-api.celsius.network and the developer portal
+  developers.celsius.network no longer resolve in DNS. celsius.network now serves a single
+  wind-down notice directing creditors to the Stretto claims administration site.
+versioning:
+  scheme: unversioned-path
+  current: null
+  note: >-
+    The Partner API exposed unversioned paths (/wallet, /kyc, /util, /users) directly on the
+    wallet-api host. No version segment, version header or version parameter was documented.
+    The official SDK versioned itself semantically (celsius-sdk 0.9.4 through 1.0.0) and its
+    CHANGELOG is the only published record of contract change.
+deprecation:
+  policy_url: https://celsius.network/
+  policy_type: wind-down-notice
+  sunset_header: false
+  announced: '2024-01-31'
+  effective: '2024-02-29'
+  note: >-
+    Celsius published no RFC 8594 Sunset/Deprecation header support and no ordinary
+    deprecation policy. The retirement was announced as part of the Chapter 11 plan of
+    reorganization; the wind-down notice on celsius.network is the authoritative published
+    end-of-life statement for the platform and therefore for the API.
+  evidence:
+  - https://celsius.network/
+  - https://cases.stretto.com/celsius/
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  note: >-
+    Celsius never published a hosted status page. The API exposed its own liveness surface
+    instead - GET /health and GET /health/echo/{message} - both of which are now unreachable.
+  health_operations:
+  - openapi/celsius-network-partner-api-openapi.yml#getHealth
+  - openapi/celsius-network-partner-api-openapi.yml#health
+timeline:
+- {date: '2018-12-17', event: First release of the official celsius-sdk JavaScript SDK on npm.}
+- {date: '2022-03-10', event: 'celsius-sdk 1.0.0 released - the final SDK version. Added createUser, updateUser, updateUserEmail, getSupportedCountries, startKycVerification, getKycVerificationStatus, confirmTermsOfUse and health.'}
+- {date: '2022-04-12', event: Last publish to the npm registry.}
+- {date: '2022-06-12', event: Celsius Network froze all withdrawals, swaps and transfers between accounts.}
+- {date: '2022-07-13', event: Celsius Network filed for Chapter 11 bankruptcy in the Southern District of New York.}
+- {date: '2023-11-09', event: Plan of reorganization confirmed by the bankruptcy court, approved by approximately 98% of account holders.}
+- {date: '2024-01-31', event: Celsius emerged from Chapter 11 and began distributing over $3 billion of cryptocurrency to creditors.}
+- {date: '2024-02-29', event: Celsius mobile and web applications shut down as part of the wind-down. The Partner API surface went with them.}
+- {date: '2026-07-28', event: 'Ionic Digital - the reorganized bitcoin-mining successor formed from the Celsius mining assets - began trading on Nasdaq under IOND. Separate entity; not a Celsius Network API surface.'}
+deprecated_operations:
+- note: >-
+    Every operation in openapi/celsius-network-partner-api-openapi.yml is retired, not just
+    individually deprecated ones. The spec carries info.x-apievangelist-status = retired.
+retired_hosts:
+- {host: wallet-api.celsius.network, role: production API, dns: NXDOMAIN, checked: '2026-08-02'}
+- {host: wallet-api.staging.celsius.network, role: staging/sandbox API, dns: NXDOMAIN, checked: '2026-08-02'}
+- {host: developers.celsius.network, role: developer portal, dns: NXDOMAIN, checked: '2026-08-02'}
+surviving_surfaces:
+- {url: 'https://celsius.network/', role: wind-down notice, status: 200}
+- {url: 'https://claimsportal.celsius.network', role: creditor claims portal, status: 200}
+- {url: 'https://cases.stretto.com/celsius/', role: bankruptcy case administration, status: 200}
+- {url: 'https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api', role: public Postman API documentation, status: 200}
+- {url: 'https://www.npmjs.com/package/celsius-sdk', role: official JavaScript SDK on npm, status: published}

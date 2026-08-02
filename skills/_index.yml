@@ -1,0 +1,23 @@
+generated: '2026-08-02'
+method: generated
+source: openapi/celsius-network-partner-api-openapi.yml
+status: retired
+note: >-
+  Packaged agent skills for the Celsius Partner (Wallet) API. Every step is grounded in an
+  operationId that exists verbatim in openapi/celsius-network-partner-api-openapi.yml, which
+  is itself derived from the first-party Postman collection and the official celsius-sdk npm
+  package. The API is retired - these skills are a historical record of correct usage, not
+  instructions for a live integration.
+skills:
+- file: celsius-network-onboard-and-verify-user.md
+  name: Onboard and KYC-verify a Celsius partner user
+  api: openapi/celsius-network-partner-api-openapi.yml
+  operations: [getSupportedCountries, createUser, startKycVerification, getKycVerificationStatus, getKycStatus, verifyKyc]
+- file: celsius-network-deposit-and-earn.md
+  name: Fund a Celsius wallet and track accrued interest
+  api: openapi/celsius-network-partner-api-openapi.yml
+  operations: [getSupportedCurrencies, getInterestRates, getDeposit, getCoinTransactions, getTransactionSummary, getCoinBalance, getBalanceSummary, getInterestSummary]
+- file: celsius-network-withdraw-and-reconcile.md
+  name: Withdraw from a Celsius wallet and reconcile the transaction
+  api: openapi/celsius-network-partner-api-openapi.yml
+  operations: [getCoinBalance, getWithdrawalAddresses, getWithdrawalAddressForCoin, withdraw, getTransactionStatus, getCoinTransactions, getStatistics]

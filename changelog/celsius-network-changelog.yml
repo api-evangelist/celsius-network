@@ -1,0 +1,114 @@
+generated: '2026-08-02'
+method: searched
+source: celsius-sdk@1.0.0 CHANGELOG.md (npm tarball, https://registry.npmjs.org/celsius-sdk/-/celsius-sdk-1.0.0.tgz)
+status: closed
+summary: >-
+  Celsius Network never published a dated changelog for the Partner API itself, and the
+  developer portal that carried the API docs (developers.celsius.network) no longer resolves.
+  The only surviving dated record of contract change is the CHANGELOG.md shipped inside the
+  official celsius-sdk npm package, which tracked API capability as it was added. It is
+  reproduced here in structured form. The final entry is 1.0.0 on 2022-03-10, three months
+  before Celsius froze withdrawals.
+scheme: semver
+current_version: 1.0.0
+subject: celsius-sdk (JavaScript SDK) - a proxy for Partner API capability, not an API version
+url: https://www.npmjs.com/package/celsius-sdk?activeTab=code
+format: Keep a Changelog 1.0.0
+entries:
+- version: 1.0.0
+  date: '2022-03-10'
+  breaking: true
+  highlights:
+  - Added getSupportedCountries, health, getKycVerificationStatus, startKycVerification, createUser, updateUser, updateUserEmail and confirmTermsOfUse.
+  - Added PUT support to the HTTP client, opening the /terms-of-use and /users/{userId} surfaces.
+  - Split KYC into create-user-then-verify - startKycVerification takes an existing userId instead of creating the user.
+  breaking_changes:
+  - Removed getUsers, changeMetadata and changeWithdrawalAddress and their types (UserWithdrawalAddress, UserMetadataResponse, UsersResponse, WithdrawalAddress, InstitutionalUser).
+  - createUser reintroduced with a different signature and response shape (CreateUserResponse with userId and userToken).
+  - getInterestRates return type changed to an array of InterestRates.
+  - PaginationOptions replaced by CelsiusPaginationOptions on getTransactionSummary and getCoinTransactions.
+- version: 0.10.15
+  date: '2020-12-23'
+  breaking: false
+  highlights:
+  - Added the amount_precise property to transaction records, carrying the exact amount without rounding.
+- version: 0.10.14
+  date: '2020-11-25'
+  breaking: false
+  highlights:
+  - Added the CelsiusSDKError class carrying slug, status and originalError, and exported it alongside ValidationError.
+  - Hardened error handling for Wallet API offline and response signature verification failure.
+- version: 0.10.13
+  date: '2020-07-21'
+  breaking: false
+  highlights:
+  - Added original_interest_coin and interest_amount_in_original_coin to transaction records, present only when nature is interest.
+- version: 0.10.12
+  date: '2020-01-24'
+  breaking: false
+  highlights:
+  - Added the "origin address of the first deposit" withdrawal scheme for whitelabel partners.
+  - Added getWithdrawalAddresses and getWithdrawalAddressForCoin.
+- version: 0.10.11
+  date: '2019-12-18'
+  breaking: false
+  highlights:
+  - Raised axios from 0.18.0 to 0.18.1 to address security vulnerabilities.
+- version: 0.10.9
+  date: '2019-03-12'
+  breaking: false
+  highlights:
+  - Added getStatistics returning deposit, withdrawal and interest counts and amounts, with an optional timestamp lower bound.
+- version: 0.10.8
+  date: '2019-02-25'
+  breaking: false
+  highlights:
+  - Added ISO 3166 country representation support (name, official state name, alpha-2, alpha-3) on KYC country.
+- version: 0.10.7
+  date: '2019-02-20'
+  breaking: false
+  highlights:
+  - Added two-letter US state code support on KYC state.
+  - Fixed document_type typings; supported values are passport, identity_card and driving_licence.
+- version: 0.10.6
+  date: '2019-02-19'
+  breaking: false
+  highlights:
+  - Added address properties (country, state, city, zip, street, building_number, flat_number) and taxpayer properties (itin, national_id, ssn) to KYC user data.
+  - Raised the maximum upload size to 25MB.
+- version: 0.10.5
+  date: '2019-02-14'
+  breaking: false
+  highlights:
+  - Added getInterestSummary.
+- version: 0.10.4
+  date: '2019-02-13'
+  breaking: false
+  highlights:
+  - Added ValidationError for all HTTP client 4xx responses.
+- version: 0.10.2
+  date: '2019-02-08'
+  breaking: false
+  highlights:
+  - Added getInterestRates.
+- version: 0.10.1
+  date: '2019-02-06'
+  breaking: false
+  highlights:
+  - Added createUser for whitelabel partners.
+- version: 0.10.0
+  date: '2019-02-05'
+  breaking: false
+  highlights:
+  - Added getUsers, changeMetadata and changeWithdrawalAddress for whitelabel partners (all removed again in 1.0.0).
+- version: 0.9.5
+  date: '2019-01-03'
+  breaking: false
+  highlights:
+  - Added TypeScript type definitions.
+  - Supported currencies now fetched on SDK instantiation and exposed on the currencies property.
+- version: 0.9.4
+  date: '2018-12-17'
+  breaking: false
+  highlights:
+  - First open-source release of the Celsius SDK.

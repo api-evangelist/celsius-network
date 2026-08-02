@@ -1,0 +1,67 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/celsius-network-partner-api-openapi.yml
+notes: >-
+  Derived from the harvested contract and the probe results. Celsius Network published no
+  trust center, no certification list and no compliance program page, and none was found on
+  any surviving host, so no Compliance pointer is emitted in apis.yml. The company is wound
+  down; nothing here should be read as a current assertion about a live service.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: openapi/celsius-network-partner-api-openapi.yml is an OpenAPI 3.1.0 document (derived by API Evangelist, not published by Celsius)
+- id: oauth2
+  conforms: false
+  evidence: no oauth2 securityScheme; authentication is three custom apiKey headers
+- id: oidc
+  conforms: false
+  evidence: no /.well-known/openid-configuration on any host (probed 2026-08-02)
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors use a custom {message|msg, slug} envelope with media type application/json, not application/problem+json
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: no /.well-known/security.txt on any host (probed 2026-08-02)
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: no Sunset or Deprecation header support documented; retirement announced only as a wind-down notice
+- id: rfc8615-well-known
+  conforms: false
+  evidence: no /.well-known/ document served on any host (probed 2026-08-02)
+- id: json-api
+  conforms: false
+  evidence: bespoke response envelopes; no JSON:API media type or document structure
+- id: odata
+  conforms: false
+- id: scim2
+  conforms: false
+  evidence: user management is a bespoke /users surface, not SCIM
+- id: fhir-r4
+  conforms: false
+- id: fapi
+  conforms: false
+  evidence: no OAuth2/OIDC, no mTLS, no proof-of-possession
+- id: psd2
+  conforms: false
+  evidence: crypto lending platform, not an EU payment service provider surface
+- id: pagination
+  conforms: true
+  evidence: page/per_page query parameters with a `pagination` response wrapper carrying total/pages/current/per_page/showing
+- id: idempotency
+  conforms: false
+  evidence: no idempotency key header or parameter anywhere in the contract
+- id: kyc-aml
+  conforms: true
+  evidence: >-
+    First-class KYC surface (/kyc, /users/{userId}/kyc) with a documented status machine
+    (COLLECTING, PENDING, PASSED, REJECTED, PERMANENTLY_REJECTED) and a rejection-reason
+    vocabulary aligned to Onfido's document and identity checks; compliance-driven 401
+    COMPLIANCE_ERROR responses gate service by jurisdiction.
+- id: response-integrity-signing
+  conforms: true
+  evidence: >-
+    Custom X-Signature response header verified by the official SDK against a per-environment
+    RSA public key. Bespoke, not RFC 9421 HTTP Message Signatures.
+certifications: []
+compliance_program_published: false
+trust_center_published: false

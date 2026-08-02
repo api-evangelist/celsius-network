@@ -1,0 +1,33 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/celsius-network-partner-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: partnerToken
+  type: apiKey
+  in: header
+  parameter: X-Cel-Partner-Token
+  description: Partner key issued by Celsius and securely provided to the partner. Required
+    on every authenticated request, for every partnership type.
+  sources:
+  - openapi/celsius-network-partner-api-openapi.yml
+- name: userToken
+  type: apiKey
+  in: header
+  parameter: X-Cel-User-Token
+  description: User token created by the partner for each of its users. Used by Segmented Integration
+    partners.
+  sources:
+  - openapi/celsius-network-partner-api-openapi.yml
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: X-Cel-Api-Key
+  description: API key issued by Celsius and securely provided to the partner. Used by Omnibus
+    and Omnibus Treasury partners.
+  sources:
+  - openapi/celsius-network-partner-api-openapi.yml

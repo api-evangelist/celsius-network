@@ -1,0 +1,43 @@
+generated: '2026-08-02'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: celsius.network
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 15 11:57:08 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+- host: www.postman.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 14 09:01:44 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: wallet-api.celsius.network
+  https: false
+domains:
+- domain: celsius.network
+  dnssec: true
+  caa:
+  - 0 issue "letsencrypt.org"
+  - 0 iodef "mailto:devops@celsius.network"
+  - 0 issue "amazon.com"
+  - 0 issue "amazonaws.com"
+  - 0 issue "amazontrust.com"
+  - 0 issue "awstrust.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: postman.com
+  dnssec: false
+  caa:
+  - 0 issue "amazon.com"
+  - 0 issue "digicert.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog; cansignhttpexchanges=yes"
+  - 0 issuewild "amazon.com"
+  - 0 issuewild "digicert.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

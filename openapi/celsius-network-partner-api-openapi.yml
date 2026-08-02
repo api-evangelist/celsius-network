@@ -1,0 +1,1678 @@
+openapi: 3.1.0
+info:
+  title: Celsius Partner API
+  version: 1.0.0
+  summary: Partner-facing wallet, interest, KYC and utility API for the Celsius Network platform (retired).
+  description: 'The Celsius Partner API (also called the Wallet API) let Celsius Network partners deposit
+    and withdraw crypto, earn interest, read balances and transactions, run KYC on their users and read
+    utility reference data.
+
+
+    Three partnership types shared one contract. **Omnibus Integration** and **Omnibus Treasury** partners
+    authenticated with `X-Cel-Partner-Token` plus `X-Cel-Api-Key`; **Segmented Integration** partners
+    created a Celsius wallet per end user and authenticated with `X-Cel-Partner-Token` plus `X-Cel-User-Token`.
+    Every response carried an `X-Signature` header the official SDK verified against a per-environment
+    RSA public key.
+
+
+    **This API is retired.** Celsius Network filed for Chapter 11 on 2022-07-13, emerged on 2024-01-31,
+    and shut down its mobile and web apps on 2024-02-29 as part of the wind-down of its business operations.
+    The production host `wallet-api.celsius.network` no longer resolves. This document is preserved as
+    a historical record of the contract.
+
+
+    **Provenance.** Derived by API Evangelist from two first-party artifacts, both fetched 2026-08-02:
+    the Celsius API public Postman collection (https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ)
+    and the official npm package `celsius-sdk@1.0.0` (`lib/consts.js` PATHS and `lib/core.js`). No path,
+    verb, parameter, response shape or example in this document was invented.'
+  contact:
+    name: Celsius Network partnerships
+    email: partners@celsius.network
+  license:
+    name: Apache-2.0
+    identifier: Apache-2.0
+  x-apievangelist-status: retired
+  x-apievangelist-derived-from:
+  - https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ
+  - https://www.npmjs.com/package/celsius-sdk
+servers:
+- url: https://wallet-api.celsius.network
+  description: 'Production. Retired: the host no longer resolves as of 2026-08-02.'
+- url: https://wallet-api.staging.celsius.network
+  description: 'Staging / sandbox. Retired: the host no longer resolves as of 2026-08-02.'
+tags:
+- name: Wallet
+  description: Balances, accrued interest, transactions, deposits and withdrawals.
+- name: KYC
+  description: Know-Your-Customer application submission and status.
+- name: Users
+  description: Creation and maintenance of partner-owned Celsius users (Segmented Integration).
+- name: Utility
+  description: Reference data, statistics, terms of use and health.
+security:
+- partnerToken: []
+  userToken: []
+- partnerToken: []
+  apiKey: []
+paths:
+  /kyc:
+    get:
+      operationId: getKycStatus
+      summary: Get KYC status
+      description: Returns the user's KYC application status together with an object of rejection reasons.
+        `reasons` can be empty when there are no rejection reasons or the user has not been rejected;
+        when keys are present the value is always `consider`.
+      tags:
+      - KYC
+      responses:
+        '200':
+          description: KYC application status returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycStatus'
+              examples:
+                example:
+                  value:
+                    status: REJECTED
+                    reasons:
+                      other: consider
+                      original_document_present: consider
+                      visual_authenticity: consider
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: &id001
+                    message: Due to local laws and regulations, Celsius cannot provide its services to
+                      individuals from your region. For additional support, contact app@celsius.network.
+                    slug: COMPLIANCE_ERROR
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: &id002
+                    message: Coin is invalid!
+                    slug: COIN_NOT_FOUND
+    post:
+      operationId: verifyKyc
+      summary: Submit KYC data for verification
+      description: Creates the KYC application from the supplied form data and identity documents and
+        starts the KYC verification process. Segmented Integration partners only.
+      tags:
+      - KYC
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                first_name: &id003
+                  type: string
+                  description: Applicant's first name.
+                last_name: &id004
+                  type: string
+                  description: Applicant's last name.
+                middle_name: &id005
+                  type: string
+                  description: Applicant's middle name.
+                title: &id006
+                  type: string
+                  description: Applicant's title, e.g. Mr, Mrs.
+                date_of_birth: &id007
+                  type: string
+                  format: date
+                  description: Applicant's date of birth (YYYY-MM-DD).
+                citizenship: &id008
+                  type: string
+                  description: Applicant's country of citizenship.
+                country: &id009
+                  type: string
+                  description: Applicant's country of residence.
+                state: &id010
+                  type: string
+                  description: Applicant's state of residence.
+                city: &id011
+                  type: string
+                  description: Applicant's city of residence.
+                zip: &id012
+                  type: string
+                  description: Applicant's postal code.
+                street: &id013
+                  type: string
+                  description: Applicant's street.
+                building_number: &id014
+                  type: string
+                  description: Applicant's building number.
+                flat_number: &id015
+                  type: string
+                  description: Applicant's flat number.
+                ssn: &id016
+                  type: string
+                  description: Applicant's US Social Security Number.
+                itin: &id017
+                  type: string
+                  description: Applicant's US Individual Taxpayer Identification Number.
+                national_id: &id018
+                  type: string
+                  description: Applicant's national identity number.
+                gender: &id019
+                  type: string
+                  description: Applicant's gender.
+                document_type:
+                  type: string
+                  description: Type of the identity document being uploaded.
+                document_front_image:
+                  type: string
+                  format: binary
+                  description: Front image of the identity document.
+                document_back_image:
+                  type: string
+                  format: binary
+                  description: Back image of the identity document.
+              required:
+              - first_name
+              - last_name
+              - date_of_birth
+              - citizenship
+              - country
+              - city
+              - zip
+              - street
+              - gender
+      responses:
+        '200':
+          description: KYC data submitted and the verification process started.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+              examples:
+                example:
+                  value:
+                    message: Kyc started.
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: &id020
+                    message: You cannot withdraw less than 1$.
+                    slug: DUST_CHECK_FAILED
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /users:
+    post:
+      operationId: createUser
+      summary: Create a partner user
+      description: Creates a user in the Celsius system on behalf of a Segmented Integration partner and
+        returns the `userId`. The supplied `user_token` is subsequently used as the user secret (`X-Cel-User-Token`).
+      tags:
+      - Users
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                first_name: *id003
+                last_name: *id004
+                middle_name: *id005
+                title: *id006
+                date_of_birth: *id007
+                citizenship: *id008
+                country: *id009
+                state: *id010
+                city: *id011
+                zip: *id012
+                street: *id013
+                building_number: *id014
+                flat_number: *id015
+                ssn: *id016
+                itin: *id017
+                national_id: *id018
+                gender: *id019
+                email:
+                  type: string
+                  format: email
+                  description: Applicant's email address.
+                user_token:
+                  type: string
+                  description: Partner-generated token identifying this user.
+              required:
+              - first_name
+              - last_name
+              - date_of_birth
+              - citizenship
+              - country
+              - city
+              - zip
+              - street
+              - gender
+              - user_token
+      security:
+      - partnerToken: []
+      responses:
+        '200':
+          description: User created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id020
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+    put:
+      operationId: updateUserEmail
+      summary: Update the user's email address
+      description: Updates the email address of the authenticated user.
+      tags:
+      - Users
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: New email address for the user.
+              required:
+              - email
+      responses:
+        '200':
+          description: Email updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusFlag'
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id020
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /users/{userId}:
+    put:
+      operationId: updateUser
+      summary: Update a partner user
+      description: Updates the profile of an existing user created by the partner.
+      tags:
+      - Users
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: Id of the user in the Celsius system.
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                first_name: *id003
+                last_name: *id004
+                middle_name: *id005
+                title: *id006
+                date_of_birth: *id007
+                citizenship: *id008
+                country: *id009
+                state: *id010
+                city: *id011
+                zip: *id012
+                street: *id013
+                building_number: *id014
+                flat_number: *id015
+                ssn: *id016
+                itin: *id017
+                national_id: *id018
+                gender: *id019
+      responses:
+        '200':
+          description: User updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusFlag'
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id020
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /users/{userId}/kyc:
+    get:
+      operationId: getKycVerificationStatus
+      summary: Get KYC verification status for a user
+      description: Returns the KYC status for an existing user id. Same shape as getKycStatus but scoped
+        to a user the partner already created.
+      tags:
+      - KYC
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: Id of the user in the Celsius system.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: KYC status returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycStatus'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+    post:
+      operationId: startKycVerification
+      summary: Start KYC verification for an existing user
+      description: Starts the KYC verification process for an existing user id. Unlike verifyKyc this
+        does not create the user; it uploads identity documents for a user the partner already created.
+      tags:
+      - KYC
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: Id of the user in the Celsius system.
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                document_type:
+                  type: string
+                  description: Type of the identity document being uploaded.
+                document_front_image:
+                  type: string
+                  format: binary
+                  description: Front image of the identity document.
+                document_back_image:
+                  type: string
+                  format: binary
+                  description: Back image of the identity document.
+              required:
+              - document_type
+      responses:
+        '200':
+          description: KYC verification started.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+              examples:
+                example:
+                  value:
+                    message: Kyc started.
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id020
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/balance:
+    get:
+      operationId: getBalanceSummary
+      summary: Get balance for all coins
+      description: Returns the user's balance in each coin supported by Celsius.
+      tags:
+      - Wallet
+      responses:
+        '200':
+          description: Balances returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceSummary'
+              examples:
+                example:
+                  value:
+                    balance:
+                      eth: '998.000000000000000000'
+                      btc: '0'
+                      ltc: '0.00500000'
+                      cel: '1659.0569'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/{coin}/balance:
+    get:
+      operationId: getCoinBalance
+      summary: Get balance for a coin
+      description: Returns the user's balance in a specific coin and its value in USD.
+      tags:
+      - Wallet
+      parameters:
+      - &id021
+        name: coin
+        in: path
+        required: true
+        description: Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies.
+        schema:
+          type: string
+          examples:
+          - BTC
+      responses:
+        '200':
+          description: Balance for the coin returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoinBalance'
+              examples:
+                example:
+                  value:
+                    amount: '0.00525'
+                    amount_in_usd: '312.44'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/interest:
+    get:
+      operationId: getInterestSummary
+      summary: Get accrued interest for all coins
+      description: Returns the user's accrued interest in each coin and its value in USD, plus the total
+        amount accrued in USD across all coins.
+      tags:
+      - Wallet
+      responses:
+        '200':
+          description: Accrued interest returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestSummary'
+              examples:
+                example:
+                  value:
+                    interest:
+                      BTC:
+                        amount: 0
+                        amount_usd: 206.20390147513007
+                        amount_cel: '1659.0569'
+                        coin: BTC
+                    total_amount_usd: '2909.35'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/transactions:
+    get:
+      operationId: getTransactionSummary
+      summary: Get all transactions
+      description: Returns a paginated list of all the user's transactions, sorted by the `time` property
+        in descending order.
+      tags:
+      - Wallet
+      parameters:
+      - &id022
+        name: page
+        in: query
+        required: false
+        description: Page to retrieve. Defaults to the first page.
+        schema:
+          type: integer
+          minimum: 1
+          examples:
+          - 2
+      - &id023
+        name: per_page
+        in: query
+        required: false
+        description: How many records are shown per page. Defaults to 20 records.
+        schema:
+          type: integer
+          minimum: 1
+          examples:
+          - 20
+      responses:
+        '200':
+          description: Transactions returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionPage'
+              examples:
+                example:
+                  value:
+                    pagination:
+                      total: 8
+                      pages: 3
+                      current: 2
+                      per_page: 3
+                      showing: 4 - 6
+                    record:
+                    - id: 74092e77-0a8e-460b-b87a-29b7a401bc1a
+                      amount: '1053.888361'
+                      amount_precise: '1053.888361068924293393'
+                      amount_usd: '27925.078284'
+                      coin: ETH
+                      state: confirmed
+                      nature: interest
+                      time: '2020-10-07T13:53:14.000Z'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/{coin}/transactions:
+    get:
+      operationId: getCoinTransactions
+      summary: Get all transactions for a coin
+      description: Returns a paginated list of all the user's transactions for the specified coin, sorted
+        by the `time` property in descending order.
+      tags:
+      - Wallet
+      parameters:
+      - *id021
+      - *id022
+      - *id023
+      responses:
+        '200':
+          description: Transactions returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionPage'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/transactions/{transaction}/status:
+    get:
+      operationId: getTransactionStatus
+      summary: Get transaction status
+      description: Returns the state and blockchain hash for the supplied Celsius transaction id.
+      tags:
+      - Wallet
+      parameters:
+      - name: transaction
+        in: path
+        required: true
+        description: Transaction id in the Celsius system.
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Transaction status returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionStatus'
+              examples:
+                example:
+                  value:
+                    tx_id: null
+                    state: processing
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id020
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/{coin}/deposit:
+    get:
+      operationId: getDeposit
+      summary: Get deposit address
+      description: Returns the deposit address for the specified coin. When `coin` is BTC the `address`
+        is the segwit deposit address and `addressSecondary` carries the legacy address.
+      tags:
+      - Wallet
+      parameters:
+      - *id021
+      responses:
+        '200':
+          description: Deposit address returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositAddress'
+              examples:
+                example:
+                  value:
+                    address: '0x8fed6d0ad578b7f4beb7aa04de81da9b94244e4f'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+        '503':
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: &id024
+                    msg: No free addresses available.
+  /wallet/{coin}/withdraw:
+    post:
+      operationId: withdraw
+      summary: Withdraw funds
+      description: Withdraws the requested amount of the specified coin to the supplied address. The address
+        must satisfy the partner's withdrawal scheme (no address / list of pre-approved addresses / any
+        address).
+      tags:
+      - Wallet
+      parameters:
+      - *id021
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  description: Address to which to withdraw the funds.
+                amount:
+                  type: string
+                  description: Amount to withdraw, as a numeric string.
+              required:
+              - address
+              - amount
+      responses:
+        '200':
+          description: Withdrawal accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithdrawalAccepted'
+              examples:
+                example:
+                  value:
+                    transaction_id: 9427a15a-14da-457f-98da-f2e6e7bd652a
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id020
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/{coin}/withdrawal-address:
+    get:
+      operationId: getWithdrawalAddressForCoin
+      summary: Get the withdrawal address for a coin
+      description: Returns the pre-approved withdrawal address configured for the user for the specified
+        coin.
+      tags:
+      - Wallet
+      parameters:
+      - *id021
+      responses:
+        '200':
+          description: Withdrawal address returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositAddress'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /wallet/withdrawal-addresses:
+    get:
+      operationId: getWithdrawalAddresses
+      summary: Get all withdrawal addresses
+      description: Returns every pre-approved withdrawal address configured for the user, keyed by coin.
+      tags:
+      - Wallet
+      responses:
+        '200':
+          description: Withdrawal addresses returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithdrawalAddresses'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /util/interest/rates:
+    get:
+      operationId: getInterestRates
+      summary: Get interest rates
+      description: Returns the current interest rate for every coin. Does not require a user credential.
+      tags:
+      - Utility
+      security:
+      - partnerToken: []
+      - {}
+      responses:
+        '200':
+          description: Interest rates returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestRates'
+              examples:
+                example:
+                  value:
+                    interestRates:
+                    - coin: ETH
+                      rate: '0.0200'
+                    - coin: BTC
+                      rate: '0.2300'
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /util/countries:
+    get:
+      operationId: getSupportedCountries
+      summary: Get supported countries
+      description: Returns the countries supported for the KYC verification process.
+      tags:
+      - Utility
+      responses:
+        '200':
+          description: Countries returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Countries'
+              examples:
+                example:
+                  value:
+                    countries:
+                    - alpha2: AD
+                      alpha3: AND
+                      countryCallingCodes:
+                      - '+376'
+                      currencies:
+                      - EUR
+                      name: Andorra
+                      status: assigned
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /util/supported_currencies:
+    get:
+      operationId: getSupportedCurrencies
+      summary: Get supported coins
+      description: Returns the array of coins supported by Celsius.
+      tags:
+      - Utility
+      responses:
+        '200':
+          description: Supported coins returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currencies'
+              examples:
+                example:
+                  value:
+                    currencies:
+                    - ETH
+                    - BTC
+                    - LTC
+                    - USDC
+                    - CEL
+                    - USDT ERC20
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /util/statistics:
+    get:
+      operationId: getStatistics
+      summary: Get deposit, withdrawal and interest statistics
+      description: Returns aggregate deposit, withdrawal and interest counts and amounts, optionally from
+        a given timestamp onwards.
+      tags:
+      - Utility
+      parameters:
+      - name: timestamp
+        in: query
+        required: false
+        description: Only include activity from this ISO 8601 timestamp onwards.
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Statistics returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /terms-of-use:
+    put:
+      operationId: confirmTermsOfUse
+      summary: Confirm the latest terms of use
+      description: Records the user's acceptance of the latest terms of use.
+      tags:
+      - Utility
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                terms_of_use_id:
+                  type: string
+                  description: Id of the terms of use being accepted.
+                confirmation_date:
+                  type: string
+                  format: date-time
+                  description: When the user accepted the terms.
+              required:
+              - terms_of_use_id
+              - confirmation_date
+      responses:
+        '200':
+          description: Terms of use confirmed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessFlag'
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id020
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked
+            by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id001
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id002
+  /health:
+    get:
+      operationId: getHealth
+      summary: Get API health
+      description: Returns the current status of the Celsius Partner API. Does not require authentication.
+      tags:
+      - Utility
+      security:
+      - {}
+      responses:
+        '200':
+          description: Partner API status returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                example:
+                  value:
+                    status: ok
+        '503':
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id024
+  /health/echo/{message}:
+    get:
+      operationId: health
+      summary: Echo health check
+      description: Echoes the supplied message back, confirming end-to-end reachability and response signing.
+      tags:
+      - Utility
+      parameters:
+      - name: message
+        in: path
+        required: true
+        description: Arbitrary message to echo back.
+        schema:
+          type: string
+      security:
+      - {}
+      responses:
+        '200':
+          description: Message echoed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthEcho'
+              examples:
+                example:
+                  value:
+                    msg: bf105359e2d7ecb96a46ede6defc64e4c864997dbeb092a697e98f9e957b0944
+        '503':
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value: *id024
+components:
+  securitySchemes:
+    partnerToken:
+      type: apiKey
+      in: header
+      name: X-Cel-Partner-Token
+      description: Partner key issued by Celsius and securely provided to the partner. Required on every
+        authenticated request, for every partnership type.
+    userToken:
+      type: apiKey
+      in: header
+      name: X-Cel-User-Token
+      description: User token created by the partner for each of its users. Used by Segmented Integration
+        partners.
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-Cel-Api-Key
+      description: API key issued by Celsius and securely provided to the partner. Used by Omnibus and
+        Omnibus Treasury partners.
+  schemas:
+    Error:
+      type: object
+      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message`
+        the human-readable text; older responses use `msg` instead of `message`.
+      properties:
+        message:
+          type: string
+          description: Human readable error message.
+        msg:
+          type: string
+          description: Legacy human readable error message.
+        slug:
+          type: string
+          description: Stable machine-readable error code.
+          examples:
+          - COMPLIANCE_ERROR
+          - COIN_NOT_FOUND
+          - INSUFFICIENT_FUNDS
+    Message:
+      type: object
+      description: Simple message envelope.
+      properties:
+        message:
+          type: string
+        msg:
+          type: string
+    StatusFlag:
+      type: object
+      properties:
+        status:
+          type: boolean
+    SuccessFlag:
+      type: object
+      properties:
+        success:
+          type: boolean
+    KycStatus:
+      type: object
+      description: State of a KYC application.
+      properties:
+        status:
+          type: string
+          description: Status of the KYC application.
+          enum:
+          - COLLECTING
+          - PENDING
+          - PASSED
+          - REJECTED
+          - PERMANENTLY_REJECTED
+        reasons:
+          type: object
+          description: Rejection reasons keyed by reason name; each value is always `consider`.
+          additionalProperties:
+            type: string
+    CreateUserResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        userToken:
+          type: string
+    BalanceSummary:
+      type: object
+      properties:
+        balance:
+          type: object
+          description: User's balance keyed by coin.
+          additionalProperties:
+            type: string
+    CoinBalance:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Balance in the requested coin.
+        amount_in_usd:
+          type: string
+          description: Balance converted to USD.
+    AccruedInterest:
+      type: object
+      description: Interest a user has accrued for a single coin.
+      properties:
+        amount:
+          type: string
+          description: Interest accrued In Kind (in the coin itself).
+        amount_cel:
+          type: string
+          description: Interest accrued In CEL.
+        amount_usd:
+          type: number
+          description: Interest accrued converted to USD (In Kind plus In CEL).
+        coin:
+          type: string
+          description: Coin on which the interest was accrued.
+    InterestSummary:
+      type: object
+      properties:
+        interest:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AccruedInterest'
+        total_amount_usd:
+          type: string
+          description: Total USD sum of all accrued interest.
+    Pagination:
+      type: object
+      description: Splits a collection into pages of per_page items.
+      properties:
+        total:
+          type: number
+          description: Total number of items.
+        pages:
+          type: number
+          description: Total number of pages.
+        current:
+          type: number
+          description: Current page number.
+        per_page:
+          type: number
+          description: Number of items per page.
+        showing:
+          type: string
+          description: Where in the collection the first and last item sit.
+    Transaction:
+      type: object
+      description: A single transaction of a user in the Celsius system.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Transaction id in the Celsius system.
+        amount:
+          type: string
+          description: Transaction amount, rounded down to the last significant decimal place.
+        amount_precise:
+          type: string
+          description: Precise transaction amount, without rounding.
+        amount_usd:
+          type: string
+          description: Transaction amount converted to USD at the `time` property.
+        coin:
+          type: string
+          description: Transaction coin.
+        state:
+          type: string
+          description: Transaction state.
+          enum:
+          - processing
+          - unconfirmed
+          - confirmed
+          - rejected
+        nature:
+          type: string
+          description: Transaction nature.
+          enum:
+          - deposit
+          - withdrawal
+          - interest
+        time:
+          type: string
+          format: date-time
+          description: Transaction date and time.
+        tx_id:
+          type:
+          - string
+          - 'null'
+          description: Transaction blockchain hash.
+        original_interest_coin:
+          type: string
+          description: Original coin for which this transaction was created. Present only when `nature`
+            is interest.
+        interest_amount_in_original_coin:
+          type: string
+          description: Amount in original_interest_coin before conversion to `coin`.
+    TransactionPage:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        record:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+    TransactionStatus:
+      type: object
+      properties:
+        tx_id:
+          type:
+          - string
+          - 'null'
+          description: Transaction hash on the blockchain.
+        state:
+          type: string
+          enum:
+          - processing
+          - unconfirmed
+          - confirmed
+          - rejected
+    DepositAddress:
+      type: object
+      properties:
+        address:
+          type: string
+          description: Deposit address. For BTC this is the segwit address.
+        addressSecondary:
+          type: string
+          description: Legacy deposit address. Present only for BTC.
+    WithdrawalAddresses:
+      type: object
+      description: Pre-approved withdrawal addresses keyed by coin.
+      additionalProperties:
+        type: string
+    WithdrawalAccepted:
+      type: object
+      properties:
+        transaction_id:
+          type: string
+          format: uuid
+          description: Transaction id in the Celsius system.
+    InterestRate:
+      type: object
+      description: Interest rate for a single coin.
+      properties:
+        coin:
+          type: string
+          description: Interest rate coin.
+        rate:
+          type: string
+          description: Interest rate.
+        currency:
+          type: object
+          description: Currency metadata for the coin.
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            short:
+              type: string
+            image_url:
+              type: string
+    InterestRates:
+      type: object
+      properties:
+        interestRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestRate'
+    Country:
+      type: object
+      properties:
+        alpha2:
+          type: string
+        alpha3:
+          type: string
+        countryCallingCodes:
+          type: array
+          items:
+            type: string
+        currencies:
+          type: array
+          items:
+            type: string
+        emoji:
+          type: string
+        ioc:
+          type: string
+        languages:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        status:
+          type: string
+    Countries:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+    Currencies:
+      type: object
+      properties:
+        currencies:
+          type: array
+          items:
+            type: string
+    AmountRollup:
+      type: object
+      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
+      properties:
+        total_amount_usd:
+          type: string
+      additionalProperties: true
+    Statistics:
+      type: object
+      properties:
+        deposit_count:
+          type:
+          - number
+          - string
+        deposit_amount:
+          $ref: '#/components/schemas/AmountRollup'
+        withdrawal_count:
+          type:
+          - number
+          - string
+        withdrawal_amount:
+          $ref: '#/components/schemas/AmountRollup'
+        interest_count:
+          type:
+          - number
+          - string
+        interest_amount:
+          $ref: '#/components/schemas/AmountRollup'
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+    HealthEcho:
+      type: object
+      properties:
+        msg:
+          type:
+          - string
+          - 'null'
+          description: The echoed message.

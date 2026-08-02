@@ -1,0 +1,73 @@
+generated: '2026-08-02'
+method: probed
+source: live HTTP probes of every Celsius Network host
+notes: >-
+  No /.well-known/ document is served on any Celsius Network host. celsius.network and
+  www.celsius.network return a genuine 404 for every path probed. api.celsius.network answers
+  403 for every path from an nginx edge. claimsportal.celsius.network is a single-page app
+  whose catch-all returns HTTP 200 with the same 910-byte HTML shell for every path, so its
+  200s are NOT well-known hits and are recorded as such. The former developer host
+  developers.celsius.network and the former API hosts wallet-api.celsius.network and
+  wallet-api.staging.celsius.network no longer resolve in DNS.
+hosts:
+- host: https://celsius.network
+  resolves: true
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+- host: https://www.celsius.network
+  resolves: true
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://api.celsius.network
+  resolves: true
+  note: nginx edge returns 403 Forbidden for every path, including /
+  documents:
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /.well-known/openid-configuration, status: 403}
+  - {path: /.well-known/oauth-authorization-server, status: 403}
+  - {path: /.well-known/api-catalog, status: 403}
+  - {path: /.well-known/ai-plugin.json, status: 403}
+  - {path: /.well-known/agent-card.json, status: 403}
+  - {path: /.well-known/agent.json, status: 403}
+- host: https://claimsportal.celsius.network
+  resolves: true
+  note: >-
+    SPA catch-all. Every path returns HTTP 200 with an identical 910-byte HTML shell,
+    including paths that cannot exist. These 200s are false positives and none of them is a
+    well-known document.
+  documents:
+  - {path: /.well-known/security.txt, status: 200, valid: false, reason: spa-catch-all-html}
+  - {path: /.well-known/agent-card.json, status: 200, valid: false, reason: spa-catch-all-html}
+  - {path: /.well-known/agent.json, status: 200, valid: false, reason: spa-catch-all-html}
+  - {path: /.well-known/openid-configuration, status: 200, valid: false, reason: spa-catch-all-html}
+  - {path: /.well-known/api-catalog, status: 200, valid: false, reason: spa-catch-all-html}
+- host: https://developers.celsius.network
+  resolves: false
+  note: NXDOMAIN. The former Celsius developer portal.
+- host: https://wallet-api.celsius.network
+  resolves: false
+  note: NXDOMAIN. The former production Partner API host.
+- host: https://wallet-api.staging.celsius.network
+  resolves: false
+  note: NXDOMAIN. The former staging/sandbox Partner API host.
+summary:
+  documents_found: 0
+  security_txt: false
+  openid_configuration: false
+  oauth_authorization_server: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
