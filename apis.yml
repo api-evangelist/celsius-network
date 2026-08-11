@@ -39,39 +39,87 @@ tags:
 - KYC
 - Retired
 apis:
-- aid: celsius-network:partner-api
-  name: Celsius Partner API
-  description: >-
-    The partner-facing wallet and earning API for the Celsius Network platform, also called the
-    Wallet API. 21 paths and 24 operations across four tags — Wallet (balances, accrued
-    interest, transactions, deposit addresses, withdrawals, withdrawal addresses), KYC
-    (application submission and status), Users (partner-owned user lifecycle for Segmented
-    Integration) and Utility (interest rates, supported coins and countries, statistics, terms
-    of use, health). Authentication is by API-key headers: X-Cel-Partner-Token on every
-    request, plus X-Cel-User-Token for Segmented Integration partners or X-Cel-Api-Key for
-    Omnibus and Omnibus Treasury partners. Every response carried an X-Signature header the
-    official SDK verified against a per-environment RSA public key. RETIRED — the production
-    host no longer resolves.
-  humanURL: https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+- aid: celsius-network:celsius-network-kyc-api
+  name: Celsius Network KYC API
+  description: Know-Your-Customer application submission and status.
+  humanURL: >-
+    https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
   baseURL: https://wallet-api.celsius.network
-  image: https://celsius.network/_next/static/media/blue_logo.6966df1d.svg
   tags:
-  - Wallet
-  - Interest
-  - Transactions
   - KYC
-  - Cryptocurrency
-  - Custody
   properties:
   - type: OpenAPI
-    url: openapi/celsius-network-partner-api-openapi.yml
-  - type: Overlay
-    url: overlays/celsius-network-partner-api-overlay.yaml
+    url: openapi/celsius-network-kyc-api-openapi.yml
   - type: Postman
-    name: Celsius API public Postman collection
-    url: https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+    url: >-
+      https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
   - type: PostmanCollection
-    name: Celsius API Postman collection (harvested verbatim)
+    url: postman/celsius-network-partner-api.postman_collection.json
+  - type: APIReference
+    url: https://documenter.getpostman.com/view/4207695/Rzn6v2mZ
+  - type: DataModel
+    url: data-model/celsius-network-data-model.yml
+  - type: ErrorCatalog
+    url: errors/celsius-network-problem-types.yml
+- aid: celsius-network:celsius-network-users-api
+  name: Celsius Network Users API
+  description: Creation and maintenance of partner-owned Celsius users (Segmented Integration).
+  humanURL: >-
+    https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  baseURL: https://wallet-api.celsius.network
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/celsius-network-users-api-openapi.yml
+  - type: Postman
+    url: >-
+      https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  - type: PostmanCollection
+    url: postman/celsius-network-partner-api.postman_collection.json
+  - type: APIReference
+    url: https://documenter.getpostman.com/view/4207695/Rzn6v2mZ
+  - type: DataModel
+    url: data-model/celsius-network-data-model.yml
+  - type: ErrorCatalog
+    url: errors/celsius-network-problem-types.yml
+- aid: celsius-network:celsius-network-utility-api
+  name: Celsius Network Utility API
+  description: Reference data, statistics, terms of use and health.
+  humanURL: >-
+    https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  baseURL: https://wallet-api.celsius.network
+  tags:
+  - Utility
+  properties:
+  - type: OpenAPI
+    url: openapi/celsius-network-utility-api-openapi.yml
+  - type: Postman
+    url: >-
+      https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  - type: PostmanCollection
+    url: postman/celsius-network-partner-api.postman_collection.json
+  - type: APIReference
+    url: https://documenter.getpostman.com/view/4207695/Rzn6v2mZ
+  - type: DataModel
+    url: data-model/celsius-network-data-model.yml
+  - type: ErrorCatalog
+    url: errors/celsius-network-problem-types.yml
+- aid: celsius-network:celsius-network-wallet-api
+  name: Celsius Network Wallet API
+  description: Balances, accrued interest, transactions, deposits and withdrawals.
+  humanURL: >-
+    https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  baseURL: https://wallet-api.celsius.network
+  tags:
+  - Wallet
+  properties:
+  - type: OpenAPI
+    url: openapi/celsius-network-wallet-api-openapi.yml
+  - type: Postman
+    url: >-
+      https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
+  - type: PostmanCollection
     url: postman/celsius-network-partner-api.postman_collection.json
   - type: APIReference
     url: https://documenter.getpostman.com/view/4207695/Rzn6v2mZ
@@ -106,7 +154,7 @@ common:
 - type: PrivacyPolicy
   url: https://celsius.network/static/privacy-policy.pdf
 - type: OpenAPI
-  url: openapi/celsius-network-partner-api-openapi.yml
+  url: openapi/_original/celsius-network-partner-api-openapi.yml
 - type: Overlay
   url: overlays/celsius-network-partner-api-overlay.yaml
 - type: Packages
