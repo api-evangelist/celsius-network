@@ -1,0 +1,2142 @@
+{
+  "item": [
+    {
+      "id": "5bbebfa2-1d37-4bb3-bbe5-fcd47b6148f2",
+      "name": "Users",
+      "description": {
+        "content": "Creation and maintenance of partner-owned Celsius users (Segmented Integration).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6656614f-d407-4d6d-8841-331c70c10189",
+          "name": "Create a partner user",
+          "request": {
+            "name": "Create a partner user",
+            "description": {
+              "content": "Creates a user in the Celsius system on behalf of a Segmented Integration partner and returns the `userId`. The supplied `user_token` is subsequently used as the user secret (`X-Cel-User-Token`).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Cel-Partner-Token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "first_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's first name."
+                },
+                {
+                  "key": "last_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's last name."
+                },
+                {
+                  "key": "date_of_birth",
+                  "value": "<date>",
+                  "type": "text",
+                  "description": "(Required) Applicant's date of birth (YYYY-MM-DD)."
+                },
+                {
+                  "key": "citizenship",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's country of citizenship."
+                },
+                {
+                  "key": "country",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's country of residence."
+                },
+                {
+                  "key": "city",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's city of residence."
+                },
+                {
+                  "key": "zip",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's postal code."
+                },
+                {
+                  "key": "street",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's street."
+                },
+                {
+                  "key": "gender",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Applicant's gender."
+                },
+                {
+                  "key": "user_token",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Partner-generated token identifying this user."
+                },
+                {
+                  "key": "middle_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's middle name."
+                },
+                {
+                  "key": "title",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's title, e.g. Mr, Mrs."
+                },
+                {
+                  "key": "state",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's state of residence."
+                },
+                {
+                  "key": "building_number",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's building number."
+                },
+                {
+                  "key": "flat_number",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's flat number."
+                },
+                {
+                  "key": "ssn",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's US Social Security Number."
+                },
+                {
+                  "key": "itin",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's US Individual Taxpayer Identification Number."
+                },
+                {
+                  "key": "national_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's national identity number."
+                },
+                {
+                  "key": "email",
+                  "value": "<email>",
+                  "type": "text",
+                  "description": "Applicant's email address."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "44d1c01b-f38c-4672-b796-154aee0f1f22",
+              "name": "User created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's first name.",
+                        "type": "text/plain"
+                      },
+                      "key": "first_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "last_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's date of birth (YYYY-MM-DD).",
+                        "type": "text/plain"
+                      },
+                      "key": "date_of_birth",
+                      "value": "<date>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's country of citizenship.",
+                        "type": "text/plain"
+                      },
+                      "key": "citizenship",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's country of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's street.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's gender.",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Partner-generated token identifying this user.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_token",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middle_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's title, e.g. Mr, Mrs.",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's state of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's building number.",
+                        "type": "text/plain"
+                      },
+                      "key": "building_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's flat number.",
+                        "type": "text/plain"
+                      },
+                      "key": "flat_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Social Security Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "ssn",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Individual Taxpayer Identification Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "itin",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's national identity number.",
+                        "type": "text/plain"
+                      },
+                      "key": "national_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's email address.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<email>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"userId\": \"0d278784-61c6-24fe-01d9-b18999b751ad\",\n  \"userToken\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7296c31b-eae5-4a6b-a349-edaf8d9d3388",
+              "name": "Bad request. Validation failed or the withdrawal amount is below the minimum.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's first name.",
+                        "type": "text/plain"
+                      },
+                      "key": "first_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "last_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's date of birth (YYYY-MM-DD).",
+                        "type": "text/plain"
+                      },
+                      "key": "date_of_birth",
+                      "value": "<date>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's country of citizenship.",
+                        "type": "text/plain"
+                      },
+                      "key": "citizenship",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's country of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's street.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's gender.",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Partner-generated token identifying this user.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_token",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middle_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's title, e.g. Mr, Mrs.",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's state of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's building number.",
+                        "type": "text/plain"
+                      },
+                      "key": "building_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's flat number.",
+                        "type": "text/plain"
+                      },
+                      "key": "flat_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Social Security Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "ssn",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Individual Taxpayer Identification Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "itin",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's national identity number.",
+                        "type": "text/plain"
+                      },
+                      "key": "national_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's email address.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<email>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You cannot withdraw less than 1$.\",\n  \"slug\": \"DUST_CHECK_FAILED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f9a2cd90-75d2-461c-a13e-f7e384ba7430",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's first name.",
+                        "type": "text/plain"
+                      },
+                      "key": "first_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "last_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's date of birth (YYYY-MM-DD).",
+                        "type": "text/plain"
+                      },
+                      "key": "date_of_birth",
+                      "value": "<date>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's country of citizenship.",
+                        "type": "text/plain"
+                      },
+                      "key": "citizenship",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's country of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's street.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Applicant's gender.",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Partner-generated token identifying this user.",
+                        "type": "text/plain"
+                      },
+                      "key": "user_token",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middle_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's title, e.g. Mr, Mrs.",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's state of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's building number.",
+                        "type": "text/plain"
+                      },
+                      "key": "building_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's flat number.",
+                        "type": "text/plain"
+                      },
+                      "key": "flat_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Social Security Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "ssn",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Individual Taxpayer Identification Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "itin",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's national identity number.",
+                        "type": "text/plain"
+                      },
+                      "key": "national_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's email address.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<email>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f70e533f-f544-4fa7-b0e7-1f7260dd66be",
+          "name": "Update the user's email address",
+          "request": {
+            "name": "Update the user's email address",
+            "description": {
+              "content": "Updates the email address of the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "<email>",
+                  "type": "text",
+                  "description": "(Required) New email address for the user."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "dd2d5265-7bc0-4abd-8bc5-cd1fe7fb7a6d",
+              "name": "Email updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) New email address for the user.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<email>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "44287177-7405-4a2e-be7f-f35e635ee6a0",
+              "name": "Bad request. Validation failed or the withdrawal amount is below the minimum.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) New email address for the user.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<email>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You cannot withdraw less than 1$.\",\n  \"slug\": \"DUST_CHECK_FAILED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bce88459-c8ec-48fa-9b08-390c05dfd05e",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) New email address for the user.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<email>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5d983b8c-f14f-4be6-9d11-96154f35cb49",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) New email address for the user.",
+                        "type": "text/plain"
+                      },
+                      "key": "email",
+                      "value": "<email>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "61c97dab-fab4-4b1e-b749-281d217572a6",
+          "name": "Update a partner user",
+          "request": {
+            "name": "Update a partner user",
+            "description": {
+              "content": "Updates the profile of an existing user created by the partner.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":userId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "userId",
+                  "description": "(Required) Id of the user in the Celsius system."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "first_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's first name."
+                },
+                {
+                  "key": "last_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's last name."
+                },
+                {
+                  "key": "middle_name",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's middle name."
+                },
+                {
+                  "key": "title",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's title, e.g. Mr, Mrs."
+                },
+                {
+                  "key": "date_of_birth",
+                  "value": "<date>",
+                  "type": "text",
+                  "description": "Applicant's date of birth (YYYY-MM-DD)."
+                },
+                {
+                  "key": "citizenship",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's country of citizenship."
+                },
+                {
+                  "key": "country",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's country of residence."
+                },
+                {
+                  "key": "state",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's state of residence."
+                },
+                {
+                  "key": "city",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's city of residence."
+                },
+                {
+                  "key": "zip",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's postal code."
+                },
+                {
+                  "key": "street",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's street."
+                },
+                {
+                  "key": "building_number",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's building number."
+                },
+                {
+                  "key": "flat_number",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's flat number."
+                },
+                {
+                  "key": "ssn",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's US Social Security Number."
+                },
+                {
+                  "key": "itin",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's US Individual Taxpayer Identification Number."
+                },
+                {
+                  "key": "national_id",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's national identity number."
+                },
+                {
+                  "key": "gender",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "Applicant's gender."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ee5299c0-b16e-4369-ae11-a07f5e93c87c",
+              "name": "User updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) Id of the user in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Applicant's first name.",
+                        "type": "text/plain"
+                      },
+                      "key": "first_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "last_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middle_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's title, e.g. Mr, Mrs.",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's date of birth (YYYY-MM-DD).",
+                        "type": "text/plain"
+                      },
+                      "key": "date_of_birth",
+                      "value": "<date>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of citizenship.",
+                        "type": "text/plain"
+                      },
+                      "key": "citizenship",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's state of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's street.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's building number.",
+                        "type": "text/plain"
+                      },
+                      "key": "building_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's flat number.",
+                        "type": "text/plain"
+                      },
+                      "key": "flat_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Social Security Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "ssn",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Individual Taxpayer Identification Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "itin",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's national identity number.",
+                        "type": "text/plain"
+                      },
+                      "key": "national_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's gender.",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "065ced63-6e18-42b2-91e7-f7828850f295",
+              "name": "Bad request. Validation failed or the withdrawal amount is below the minimum.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) Id of the user in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Applicant's first name.",
+                        "type": "text/plain"
+                      },
+                      "key": "first_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "last_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middle_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's title, e.g. Mr, Mrs.",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's date of birth (YYYY-MM-DD).",
+                        "type": "text/plain"
+                      },
+                      "key": "date_of_birth",
+                      "value": "<date>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of citizenship.",
+                        "type": "text/plain"
+                      },
+                      "key": "citizenship",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's state of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's street.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's building number.",
+                        "type": "text/plain"
+                      },
+                      "key": "building_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's flat number.",
+                        "type": "text/plain"
+                      },
+                      "key": "flat_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Social Security Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "ssn",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Individual Taxpayer Identification Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "itin",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's national identity number.",
+                        "type": "text/plain"
+                      },
+                      "key": "national_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's gender.",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You cannot withdraw less than 1$.\",\n  \"slug\": \"DUST_CHECK_FAILED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95967780-6b67-4547-ae65-ef98c076bda7",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) Id of the user in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Applicant's first name.",
+                        "type": "text/plain"
+                      },
+                      "key": "first_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "last_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middle_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's title, e.g. Mr, Mrs.",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's date of birth (YYYY-MM-DD).",
+                        "type": "text/plain"
+                      },
+                      "key": "date_of_birth",
+                      "value": "<date>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of citizenship.",
+                        "type": "text/plain"
+                      },
+                      "key": "citizenship",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's state of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's street.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's building number.",
+                        "type": "text/plain"
+                      },
+                      "key": "building_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's flat number.",
+                        "type": "text/plain"
+                      },
+                      "key": "flat_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Social Security Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "ssn",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Individual Taxpayer Identification Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "itin",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's national identity number.",
+                        "type": "text/plain"
+                      },
+                      "key": "national_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's gender.",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "368c5b13-5018-4699-a379-dfd91d6dcbe6",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":userId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "userId",
+                      "description": "(Required) Id of the user in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "Applicant's first name.",
+                        "type": "text/plain"
+                      },
+                      "key": "first_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's last name.",
+                        "type": "text/plain"
+                      },
+                      "key": "last_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's middle name.",
+                        "type": "text/plain"
+                      },
+                      "key": "middle_name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's title, e.g. Mr, Mrs.",
+                        "type": "text/plain"
+                      },
+                      "key": "title",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's date of birth (YYYY-MM-DD).",
+                        "type": "text/plain"
+                      },
+                      "key": "date_of_birth",
+                      "value": "<date>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of citizenship.",
+                        "type": "text/plain"
+                      },
+                      "key": "citizenship",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's country of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "country",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's state of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "state",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's city of residence.",
+                        "type": "text/plain"
+                      },
+                      "key": "city",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's postal code.",
+                        "type": "text/plain"
+                      },
+                      "key": "zip",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's street.",
+                        "type": "text/plain"
+                      },
+                      "key": "street",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's building number.",
+                        "type": "text/plain"
+                      },
+                      "key": "building_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's flat number.",
+                        "type": "text/plain"
+                      },
+                      "key": "flat_number",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Social Security Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "ssn",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's US Individual Taxpayer Identification Number.",
+                        "type": "text/plain"
+                      },
+                      "key": "itin",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's national identity number.",
+                        "type": "text/plain"
+                      },
+                      "key": "national_id",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Applicant's gender.",
+                        "type": "text/plain"
+                      },
+                      "key": "gender",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://wallet-api.celsius.network",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Cel-Partner-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1572d441-3905-48d8-9947-ab219a659627",
+    "name": "Celsius Partner Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Celsius Partner API (also called the Wallet API) let Celsius Network partners deposit and withdraw crypto, earn interest, read balances and transactions, run KYC on their users and read utility reference data.\n\nThree partnership types shared one contract. **Omnibus Integration** and **Omnibus Treasury** partners authenticated with `X-Cel-Partner-Token` plus `X-Cel-Api-Key`; **Segmented Integration** partners created a Celsius wallet per end user and authenticated with `X-Cel-Partner-Token` plus `X-Cel-User-Token`. Every response carried an `X-Signature` header the official SDK verified against a per-environment RSA public key.\n\n**This API is retired.** Celsius Network filed for Chapter 11 on 2022-07-13, emerged on 2024-01-31, and shut down its mobile and web apps on 2024-02-29 as part of the wind-down of its business operations. The production host `wallet-api.celsius.network` no longer resolves. This document is preserved as a historical record of the contract.\n\n**Provenance.** Derived by API Evangelist from two first-party artifacts, both fetched 2026-08-02: the Celsius API public Postman collection (https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ) and the official npm package `celsius-sdk@1.0.0` (`lib/consts.js` PATHS and `lib/core.js`). No path, verb, parameter, response shape or example in this document was invented.\n\nContact Support:\n Name: Celsius Network partnerships\n Email: partners@celsius.network",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Celsius Partner Utility API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Cel-Partner-Token",
+      "value": "{{X-Cel-Partner-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Utility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get interest rates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/util/interest/rates",
+            "auth": {
+              "type": "apikey",
+              "key": "X-Cel-Partner-Token",
+              "value": "{{X-Cel-Partner-Token}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the current interest rate for every coin. Does not require a user credential."
+        },
+        {
+          "info": {
+            "name": "Get supported countries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/util/countries"
+          },
+          "docs": "Returns the countries supported for the KYC verification process."
+        },
+        {
+          "info": {
+            "name": "Get supported coins",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/util/supported_currencies"
+          },
+          "docs": "Returns the array of coins supported by Celsius."
+        },
+        {
+          "info": {
+            "name": "Get deposit, withdrawal and interest statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/util/statistics",
+            "params": [
+              {
+                "name": "timestamp",
+                "value": "",
+                "type": "query",
+                "description": "Only include activity from this ISO 8601 timestamp onwards."
+              }
+            ]
+          },
+          "docs": "Returns aggregate deposit, withdrawal and interest counts and amounts, optionally from a given timestamp onwards."
+        },
+        {
+          "info": {
+            "name": "Confirm the latest terms of use",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://wallet-api.celsius.network/terms-of-use",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "terms_of_use_id",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "confirmation_date",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Records the user's acceptance of the latest terms of use."
+        },
+        {
+          "info": {
+            "name": "Get API health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/health"
+          },
+          "docs": "Returns the current status of the Celsius Partner API. Does not require authentication."
+        },
+        {
+          "info": {
+            "name": "Echo health check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/health/echo/:message",
+            "params": [
+              {
+                "name": "message",
+                "value": "",
+                "type": "path",
+                "description": "Arbitrary message to echo back."
+              }
+            ]
+          },
+          "docs": "Echoes the supplied message back, confirming end-to-end reachability and response signing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

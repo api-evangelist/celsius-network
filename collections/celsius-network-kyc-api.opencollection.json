@@ -1,0 +1,211 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Celsius Partner KYC API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Cel-Partner-Token",
+      "value": "{{X-Cel-Partner-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "KYC",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get KYC status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/kyc"
+          },
+          "docs": "Returns the user's KYC application status together with an object of rejection reasons. `reasons` can be empty when there are no rejection reasons or the user has not been rejected; when keys are present the value is always `consider`."
+        },
+        {
+          "info": {
+            "name": "Submit KYC data for verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://wallet-api.celsius.network/kyc",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "first_name",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "last_name",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "middle_name",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "title",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "date_of_birth",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "citizenship",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "country",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "state",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "city",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "zip",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "street",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "building_number",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "flat_number",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "ssn",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "itin",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "national_id",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "gender",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "document_type",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "document_front_image",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "document_back_image",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates the KYC application from the supplied form data and identity documents and starts the KYC verification process. Segmented Integration partners only."
+        },
+        {
+          "info": {
+            "name": "Get KYC verification status for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/users/:userId/kyc",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the user in the Celsius system."
+              }
+            ]
+          },
+          "docs": "Returns the KYC status for an existing user id. Same shape as getKycStatus but scoped to a user the partner already created."
+        },
+        {
+          "info": {
+            "name": "Start KYC verification for an existing user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://wallet-api.celsius.network/users/:userId/kyc",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the user in the Celsius system."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "document_type",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "document_front_image",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "document_back_image",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Starts the KYC verification process for an existing user id. Unlike verifyKyc this does not create the user; it uploads identity documents for a user the partner already created."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,495 @@
+openapi: 3.2.0
+info:
+  title: Celsius Partner Utility API
+  version: 1.0.0
+  summary: Partner-facing wallet, interest, KYC and utility API for the Celsius Network platform (retired).
+  description: 'The Celsius Partner API (also called the Wallet API) let Celsius Network partners deposit and withdraw crypto, earn interest, read balances and transactions, run KYC on their users and read utility reference data.
+
+
+    Three partnership types shared one contract. **Omnibus Integration** and **Omnibus Treasury** partners authenticated with `X-Cel-Partner-Token` plus `X-Cel-Api-Key`; **Segmented Integration** partners created a Celsius wallet per end user and authenticated with `X-Cel-Partner-Token` plus `X-Cel-User-Token`. Every response carried an `X-Signature` header the official SDK verified against a per-environment RSA public key.
+
+
+    **This API is retired.** Celsius Network filed for Chapter 11 on 2022-07-13, emerged on 2024-01-31, and shut down its mobile and web apps on 2024-02-29 as part of the wind-down of its business operations. The production host `wallet-api.celsius.network` no longer resolves. This document is preserved as a historical record of the contract.
+
+
+    **Provenance.** Derived by API Evangelist from two first-party artifacts, both fetched 2026-08-02: the Celsius API public Postman collection (https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ) and the official npm package `celsius-sdk@1.0.0` (`lib/consts.js` PATHS and `lib/core.js`). No path, verb, parameter, response shape or example in this document was invented.'
+  contact:
+    name: Celsius Network partnerships
+    email: partners@celsius.network
+  license:
+    name: Apache-2.0
+    identifier: Apache-2.0
+  x-apievangelist-status: retired
+  x-apievangelist-derived-from:
+  - https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ
+  - https://www.npmjs.com/package/celsius-sdk
+servers:
+- url: https://wallet-api.celsius.network
+  description: 'Production. Retired: the host no longer resolves as of 2026-08-02.'
+- url: https://wallet-api.staging.celsius.network
+  description: 'Staging / sandbox. Retired: the host no longer resolves as of 2026-08-02.'
+security:
+- partnerToken: []
+  userToken: []
+- partnerToken: []
+  apiKey: []
+tags:
+- name: Utility
+  description: Reference data, statistics, terms of use and health.
+paths:
+  /util/interest/rates:
+    get:
+      operationId: getInterestRates
+      summary: Get interest rates
+      description: Returns the current interest rate for every coin. Does not require a user credential.
+      tags:
+      - Utility
+      security:
+      - partnerToken: []
+      - {}
+      responses:
+        '200':
+          description: Interest rates returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestRates'
+              examples:
+                example:
+                  value:
+                    interestRates:
+                    - coin: ETH
+                      rate: '0.0200'
+                    - coin: BTC
+                      rate: '0.2300'
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Coin is invalid!
+                    slug: COIN_NOT_FOUND
+  /util/countries:
+    get:
+      operationId: getSupportedCountries
+      summary: Get supported countries
+      description: Returns the countries supported for the KYC verification process.
+      tags:
+      - Utility
+      responses:
+        '200':
+          description: Countries returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Countries'
+              examples:
+                example:
+                  value:
+                    countries:
+                    - alpha2: AD
+                      alpha3: AND
+                      countryCallingCodes:
+                      - '+376'
+                      currencies:
+                      - EUR
+                      name: Andorra
+                      status: assigned
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.
+                    slug: COMPLIANCE_ERROR
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Coin is invalid!
+                    slug: COIN_NOT_FOUND
+  /util/supported_currencies:
+    get:
+      operationId: getSupportedCurrencies
+      summary: Get supported coins
+      description: Returns the array of coins supported by Celsius.
+      tags:
+      - Utility
+      responses:
+        '200':
+          description: Supported coins returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currencies'
+              examples:
+                example:
+                  value:
+                    currencies:
+                    - ETH
+                    - BTC
+                    - LTC
+                    - USDC
+                    - CEL
+                    - USDT ERC20
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.
+                    slug: COMPLIANCE_ERROR
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Coin is invalid!
+                    slug: COIN_NOT_FOUND
+  /util/statistics:
+    get:
+      operationId: getStatistics
+      summary: Get deposit, withdrawal and interest statistics
+      description: Returns aggregate deposit, withdrawal and interest counts and amounts, optionally from a given timestamp onwards.
+      tags:
+      - Utility
+      parameters:
+      - name: timestamp
+        in: query
+        required: false
+        description: Only include activity from this ISO 8601 timestamp onwards.
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Statistics returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.
+                    slug: COMPLIANCE_ERROR
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Coin is invalid!
+                    slug: COIN_NOT_FOUND
+  /terms-of-use:
+    put:
+      operationId: confirmTermsOfUse
+      summary: Confirm the latest terms of use
+      description: Records the user's acceptance of the latest terms of use.
+      tags:
+      - Utility
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                terms_of_use_id:
+                  type: string
+                  description: Id of the terms of use being accepted.
+                confirmation_date:
+                  type: string
+                  format: date-time
+                  description: When the user accepted the terms.
+              required:
+              - terms_of_use_id
+              - confirmation_date
+      responses:
+        '200':
+          description: Terms of use confirmed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessFlag'
+        '400':
+          description: Bad request. Validation failed or the withdrawal amount is below the minimum.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: You cannot withdraw less than 1$.
+                    slug: DUST_CHECK_FAILED
+        '401':
+          description: Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.
+                    slug: COMPLIANCE_ERROR
+        '422':
+          description: Unprocessable entity. The request was well formed but could not be fulfilled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    message: Coin is invalid!
+                    slug: COIN_NOT_FOUND
+  /health:
+    get:
+      operationId: getHealth
+      summary: Get API health
+      description: Returns the current status of the Celsius Partner API. Does not require authentication.
+      tags:
+      - Utility
+      security:
+      - {}
+      responses:
+        '200':
+          description: Partner API status returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                example:
+                  value:
+                    status: ok
+        '503':
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    msg: No free addresses available.
+  /health/echo/{message}:
+    get:
+      operationId: health
+      summary: Echo health check
+      description: Echoes the supplied message back, confirming end-to-end reachability and response signing.
+      tags:
+      - Utility
+      parameters:
+      - name: message
+        in: path
+        required: true
+        description: Arbitrary message to echo back.
+        schema:
+          type: string
+      security:
+      - {}
+      responses:
+        '200':
+          description: Message echoed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthEcho'
+              examples:
+                example:
+                  value:
+                    msg: bf105359e2d7ecb96a46ede6defc64e4c864997dbeb092a697e98f9e957b0944
+        '503':
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                example:
+                  value:
+                    msg: No free addresses available.
+components:
+  schemas:
+    AmountRollup:
+      type: object
+      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
+      properties:
+        total_amount_usd:
+          type: string
+      additionalProperties: true
+    Country:
+      type: object
+      properties:
+        alpha2:
+          type: string
+        alpha3:
+          type: string
+        countryCallingCodes:
+          type: array
+          items:
+            type: string
+        currencies:
+          type: array
+          items:
+            type: string
+        emoji:
+          type: string
+        ioc:
+          type: string
+        languages:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        status:
+          type: string
+    HealthEcho:
+      type: object
+      properties:
+        msg:
+          type:
+          - string
+          - 'null'
+          description: The echoed message.
+    Countries:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+    SuccessFlag:
+      type: object
+      properties:
+        success:
+          type: boolean
+    InterestRates:
+      type: object
+      properties:
+        interestRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestRate'
+    InterestRate:
+      type: object
+      description: Interest rate for a single coin.
+      properties:
+        coin:
+          type: string
+          description: Interest rate coin.
+        rate:
+          type: string
+          description: Interest rate.
+        currency:
+          type: object
+          description: Currency metadata for the coin.
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            short:
+              type: string
+            image_url:
+              type: string
+    Statistics:
+      type: object
+      properties:
+        deposit_count:
+          type:
+          - number
+          - string
+        deposit_amount:
+          $ref: '#/components/schemas/AmountRollup'
+        withdrawal_count:
+          type:
+          - number
+          - string
+        withdrawal_amount:
+          $ref: '#/components/schemas/AmountRollup'
+        interest_count:
+          type:
+          - number
+          - string
+        interest_amount:
+          $ref: '#/components/schemas/AmountRollup'
+    Currencies:
+      type: object
+      properties:
+        currencies:
+          type: array
+          items:
+            type: string
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+    Error:
+      type: object
+      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
+      properties:
+        message:
+          type: string
+          description: Human readable error message.
+        msg:
+          type: string
+          description: Legacy human readable error message.
+        slug:
+          type: string
+          description: Stable machine-readable error code.
+          examples:
+          - COMPLIANCE_ERROR
+          - COIN_NOT_FOUND
+          - INSUFFICIENT_FUNDS
+  securitySchemes:
+    partnerToken:
+      type: apiKey
+      in: header
+      name: X-Cel-Partner-Token
+      description: Partner key issued by Celsius and securely provided to the partner. Required on every authenticated request, for every partnership type.
+    userToken:
+      type: apiKey
+      in: header
+      name: X-Cel-User-Token
+      description: User token created by the partner for each of its users. Used by Segmented Integration partners.
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-Cel-Api-Key
+      description: API key issued by Celsius and securely provided to the partner. Used by Omnibus and Omnibus Treasury partners.

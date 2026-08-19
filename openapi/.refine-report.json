@@ -1,0 +1,26 @@
+{
+  "provider": "celsius-network",
+  "sources": [
+    "celsius-network-kyc-api-openapi.yml",
+    "celsius-network-users-api-openapi.yml",
+    "celsius-network-utility-api-openapi.yml",
+    "celsius-network-wallet-api-openapi.yml"
+  ],
+  "outputs": [
+    "celsius-network-kyc-api-openapi.yml",
+    "celsius-network-users-api-openapi.yml",
+    "celsius-network-utility-api-openapi.yml",
+    "celsius-network-wallet-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "celsius-network-kyc-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "celsius-network-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "celsius-network-utility-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "celsius-network-wallet-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

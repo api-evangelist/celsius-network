@@ -1,0 +1,2298 @@
+{
+  "item": [
+    {
+      "id": "138507bd-e536-4068-a352-ae5a058d1155",
+      "name": "Wallet",
+      "description": {
+        "content": "Balances, accrued interest, transactions, deposits and withdrawals.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d0844dca-9a18-4d62-a3c5-9e81db82c620",
+          "name": "Get balance for all coins",
+          "request": {
+            "name": "Get balance for all coins",
+            "description": {
+              "content": "Returns the user's balance in each coin supported by Celsius.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "balance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0f38fb6b-316c-4123-abf0-ab816599f1d8",
+              "name": "Balances returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"balance\": {\n    \"eth\": \"998.000000000000000000\",\n    \"btc\": \"0\",\n    \"ltc\": \"0.00500000\",\n    \"cel\": \"1659.0569\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ccbc679-794d-4e3a-a534-7085282ba0b0",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b32a0a95-4c93-4db0-893c-b2db88d97213",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "128fd555-a4bd-476e-8a73-94dd3f141308",
+          "name": "Get balance for a coin",
+          "request": {
+            "name": "Get balance for a coin",
+            "description": {
+              "content": "Returns the user's balance in a specific coin and its value in USD.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                ":coin",
+                "balance"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "coin",
+                  "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9d6b8270-d53e-4be0-8fee-a2a01c27ddb2",
+              "name": "Balance for the coin returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"amount\": \"0.00525\",\n  \"amount_in_usd\": \"312.44\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a78b601-159c-4062-b407-39647249983b",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a105dd5-aa8f-4a9b-8534-645ac8b9aab0",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "balance"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "135b5889-121d-492c-b8ed-e58416763b24",
+          "name": "Get accrued interest for all coins",
+          "request": {
+            "name": "Get accrued interest for all coins",
+            "description": {
+              "content": "Returns the user's accrued interest in each coin and its value in USD, plus the total amount accrued in USD across all coins.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "interest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c36c1695-4a5f-443e-b06e-be2097fccdd6",
+              "name": "Accrued interest returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "interest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"interest\": {\n    \"BTC\": {\n      \"amount\": 0,\n      \"amount_usd\": 206.20390147513007,\n      \"amount_cel\": \"1659.0569\",\n      \"coin\": \"BTC\"\n    }\n  },\n  \"total_amount_usd\": \"2909.35\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4a459ef-d342-43a7-8bd9-83ad61da59da",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "interest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "119be275-3bc9-4040-a772-1f6521b56602",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "interest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22b018d6-6dd1-40c9-baa7-37b7605e0c7e",
+          "name": "Get all transactions",
+          "request": {
+            "name": "Get all transactions",
+            "description": {
+              "content": "Returns a paginated list of all the user's transactions, sorted by the `time` property in descending order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page to retrieve. Defaults to the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "How many records are shown per page. Defaults to 20 records."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6f49c205-0fe2-4d21-944e-2252f0a69b6b",
+              "name": "Transactions returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"total\": 8,\n    \"pages\": 3,\n    \"current\": 2,\n    \"per_page\": 3,\n    \"showing\": \"4 - 6\"\n  },\n  \"record\": [\n    {\n      \"id\": \"74092e77-0a8e-460b-b87a-29b7a401bc1a\",\n      \"amount\": \"1053.888361\",\n      \"amount_precise\": \"1053.888361068924293393\",\n      \"amount_usd\": \"27925.078284\",\n      \"coin\": \"ETH\",\n      \"state\": \"confirmed\",\n      \"nature\": \"interest\",\n      \"time\": \"2020-10-07T13:53:14.000Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ce09d99-21f8-4d02-8c17-7b68a1cec96a",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b745f910-47a3-4d67-b33b-ee0bca730fc0",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "efd5bf8b-aa1d-43fe-964d-dff3889675cd",
+          "name": "Get all transactions for a coin",
+          "request": {
+            "name": "Get all transactions for a coin",
+            "description": {
+              "content": "Returns a paginated list of all the user's transactions for the specified coin, sorted by the `time` property in descending order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                ":coin",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page to retrieve. Defaults to the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "<integer>",
+                  "description": "How many records are shown per page. Defaults to 20 records."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "coin",
+                  "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "639d32b3-ae15-471b-ae58-9cbfec9f0a06",
+              "name": "Transactions returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"total\": 297.0342346515276,\n    \"pages\": 1709.2232577508182,\n    \"current\": 5605.209137355485,\n    \"per_page\": 1994.6733633143099,\n    \"showing\": \"string\"\n  },\n  \"record\": [\n    {\n      \"id\": \"9381cd23-088f-9c61-85ac-2a56d2b7f051\",\n      \"amount\": \"string\",\n      \"amount_precise\": \"string\",\n      \"amount_usd\": \"string\",\n      \"coin\": \"string\",\n      \"state\": \"unconfirmed\",\n      \"nature\": \"interest\",\n      \"time\": \"1954-06-05T15:58:02.455Z\",\n      \"tx_id\": null,\n      \"original_interest_coin\": \"string\",\n      \"interest_amount_in_original_coin\": \"string\"\n    },\n    {\n      \"id\": \"d410e147-1b5a-a002-1ae8-4179c82287ce\",\n      \"amount\": \"string\",\n      \"amount_precise\": \"string\",\n      \"amount_usd\": \"string\",\n      \"coin\": \"string\",\n      \"state\": \"processing\",\n      \"nature\": \"withdrawal\",\n      \"time\": \"1963-12-08T08:54:07.937Z\",\n      \"tx_id\": null,\n      \"original_interest_coin\": \"string\",\n      \"interest_amount_in_original_coin\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "774466c7-6ccd-4e7c-8115-e0ba33e25dab",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05a78bca-1ea2-4f9c-ab4b-9a44cecbcc34",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22c270c6-7e8e-4a97-80ca-ba96902f303b",
+          "name": "Get transaction status",
+          "request": {
+            "name": "Get transaction status",
+            "description": {
+              "content": "Returns the state and blockchain hash for the supplied Celsius transaction id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "transactions",
+                ":transaction",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "transaction",
+                  "description": "(Required) Transaction id in the Celsius system."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b229eeac-c8c0-444b-a5bc-d7f69c9e3011",
+              "name": "Transaction status returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions",
+                    ":transaction",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "transaction",
+                      "description": "(Required) Transaction id in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tx_id\": null,\n  \"state\": \"processing\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ce4a9f9-88dd-46a8-b76d-49cdd7749f90",
+              "name": "Bad request. Validation failed or the withdrawal amount is below the minimum.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions",
+                    ":transaction",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "transaction",
+                      "description": "(Required) Transaction id in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You cannot withdraw less than 1$.\",\n  \"slug\": \"DUST_CHECK_FAILED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "adc09c8c-476d-4758-ba6e-9b20ea35535c",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions",
+                    ":transaction",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "transaction",
+                      "description": "(Required) Transaction id in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8d3aaf4-7e4e-4899-b237-4aba12f89b84",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions",
+                    ":transaction",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "transaction",
+                      "description": "(Required) Transaction id in the Celsius system."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45dbc327-7660-4180-b9e6-1f33f0cc4606",
+          "name": "Get deposit address",
+          "request": {
+            "name": "Get deposit address",
+            "description": {
+              "content": "Returns the deposit address for the specified coin. When `coin` is BTC the `address` is the segwit deposit address and `addressSecondary` carries the legacy address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                ":coin",
+                "deposit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "coin",
+                  "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b86e39ab-15cf-48bc-959b-8abb053748a5",
+              "name": "Deposit address returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "deposit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"address\": \"0x8fed6d0ad578b7f4beb7aa04de81da9b94244e4f\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5361822-9887-4491-b01a-fe92ed330e00",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "deposit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e20b7c36-6665-4b21-8bef-04a7ac4775ae",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "deposit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b249833-52f2-43e9-aac9-0d3cb4ac9460",
+              "name": "Service unavailable.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "deposit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"msg\": \"No free addresses available.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b516a0aa-63f2-43d8-9363-6639cf1fac45",
+          "name": "Withdraw funds",
+          "request": {
+            "name": "Withdraw funds",
+            "description": {
+              "content": "Withdraws the requested amount of the specified coin to the supplied address. The address must satisfy the partner's withdrawal scheme (no address / list of pre-approved addresses / any address).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                ":coin",
+                "withdraw"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "coin",
+                  "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "address",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Address to which to withdraw the funds."
+                },
+                {
+                  "key": "amount",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) Amount to withdraw, as a numeric string."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f07f8be4-bf95-4bdd-bfbd-25bccdf665c9",
+              "name": "Withdrawal accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "withdraw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Address to which to withdraw the funds.",
+                        "type": "text/plain"
+                      },
+                      "key": "address",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Amount to withdraw, as a numeric string.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transaction_id\": \"9427a15a-14da-457f-98da-f2e6e7bd652a\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48c9fd40-4b43-4b56-9a42-30639cb78f73",
+              "name": "Bad request. Validation failed or the withdrawal amount is below the minimum.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "withdraw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Address to which to withdraw the funds.",
+                        "type": "text/plain"
+                      },
+                      "key": "address",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Amount to withdraw, as a numeric string.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"You cannot withdraw less than 1$.\",\n  \"slug\": \"DUST_CHECK_FAILED\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad6bcd23-5023-47b4-9132-24f830721bfa",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "withdraw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Address to which to withdraw the funds.",
+                        "type": "text/plain"
+                      },
+                      "key": "address",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Amount to withdraw, as a numeric string.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d4cf71a-cdd9-4d09-99b6-d76ab49185ce",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "withdraw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Address to which to withdraw the funds.",
+                        "type": "text/plain"
+                      },
+                      "key": "address",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) Amount to withdraw, as a numeric string.",
+                        "type": "text/plain"
+                      },
+                      "key": "amount",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ce040c56-2edb-48bd-9c15-62787fb82331",
+          "name": "Get the withdrawal address for a coin",
+          "request": {
+            "name": "Get the withdrawal address for a coin",
+            "description": {
+              "content": "Returns the pre-approved withdrawal address configured for the user for the specified coin.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                ":coin",
+                "withdrawal-address"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "coin",
+                  "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "943f1fc0-a417-43a1-90a7-fbe1c9d0d713",
+              "name": "Withdrawal address returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "withdrawal-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"address\": \"string\",\n  \"addressSecondary\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b1ecf75-b57f-4534-9c0c-45250167dd29",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "withdrawal-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02442c5f-1e08-43f7-9a6f-6f047e60a996",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    ":coin",
+                    "withdrawal-address"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "coin",
+                      "description": "(Required) Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f8399667-f90a-45a0-90e9-12d8c1631441",
+          "name": "Get all withdrawal addresses",
+          "request": {
+            "name": "Get all withdrawal addresses",
+            "description": {
+              "content": "Returns every pre-approved withdrawal address configured for the user, keyed by coin.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "withdrawal-addresses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "189c451a-de39-48aa-86c5-e6a8f62bd5a5",
+              "name": "Withdrawal addresses returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "withdrawal-addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": \"string\",\n  \"key_1\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3218760-f66f-4000-a51c-1294330cc797",
+              "name": "Unauthorized. Missing or invalid partner/user credentials, or the request is blocked by compliance for the user's jurisdiction.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "withdrawal-addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Due to local laws and regulations, Celsius cannot provide its services to individuals from your region. For additional support, contact app@celsius.network.\",\n  \"slug\": \"COMPLIANCE_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9a50448-6767-484b-a1b0-5efc60560885",
+              "name": "Unprocessable entity. The request was well formed but could not be fulfilled.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "withdrawal-addresses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Cel-Partner-Token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Coin is invalid!\",\n  \"slug\": \"COIN_NOT_FOUND\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://wallet-api.celsius.network",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Cel-Partner-Token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f09f3f4d-f1ee-4c69-aae9-38162569c0f8",
+    "name": "Celsius Partner Wallet API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Celsius Partner API (also called the Wallet API) let Celsius Network partners deposit and withdraw crypto, earn interest, read balances and transactions, run KYC on their users and read utility reference data.\n\nThree partnership types shared one contract. **Omnibus Integration** and **Omnibus Treasury** partners authenticated with `X-Cel-Partner-Token` plus `X-Cel-Api-Key`; **Segmented Integration** partners created a Celsius wallet per end user and authenticated with `X-Cel-Partner-Token` plus `X-Cel-User-Token`. Every response carried an `X-Signature` header the official SDK verified against a per-environment RSA public key.\n\n**This API is retired.** Celsius Network filed for Chapter 11 on 2022-07-13, emerged on 2024-01-31, and shut down its mobile and web apps on 2024-02-29 as part of the wind-down of its business operations. The production host `wallet-api.celsius.network` no longer resolves. This document is preserved as a historical record of the contract.\n\n**Provenance.** Derived by API Evangelist from two first-party artifacts, both fetched 2026-08-02: the Celsius API public Postman collection (https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ) and the official npm package `celsius-sdk@1.0.0` (`lib/consts.js` PATHS and `lib/core.js`). No path, verb, parameter, response shape or example in this document was invented.\n\nContact Support:\n Name: Celsius Network partnerships\n Email: partners@celsius.network",
+      "type": "text/plain"
+    }
+  }
+}

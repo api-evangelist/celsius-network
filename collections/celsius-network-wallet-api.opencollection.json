@@ -1,0 +1,225 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Celsius Partner Wallet API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Cel-Partner-Token",
+      "value": "{{X-Cel-Partner-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Wallet",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get balance for all coins",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/balance"
+          },
+          "docs": "Returns the user's balance in each coin supported by Celsius."
+        },
+        {
+          "info": {
+            "name": "Get balance for a coin",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/:coin/balance",
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "path",
+                "description": "Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+              }
+            ]
+          },
+          "docs": "Returns the user's balance in a specific coin and its value in USD."
+        },
+        {
+          "info": {
+            "name": "Get accrued interest for all coins",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/interest"
+          },
+          "docs": "Returns the user's accrued interest in each coin and its value in USD, plus the total amount accrued in USD across all coins."
+        },
+        {
+          "info": {
+            "name": "Get all transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/transactions",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page to retrieve. Defaults to the first page."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "How many records are shown per page. Defaults to 20 records."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of all the user's transactions, sorted by the `time` property in descending order."
+        },
+        {
+          "info": {
+            "name": "Get all transactions for a coin",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/:coin/transactions",
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "path",
+                "description": "Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page to retrieve. Defaults to the first page."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "How many records are shown per page. Defaults to 20 records."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of all the user's transactions for the specified coin, sorted by the `time` property in descending order."
+        },
+        {
+          "info": {
+            "name": "Get transaction status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/transactions/:transaction/status",
+            "params": [
+              {
+                "name": "transaction",
+                "value": "",
+                "type": "path",
+                "description": "Transaction id in the Celsius system."
+              }
+            ]
+          },
+          "docs": "Returns the state and blockchain hash for the supplied Celsius transaction id."
+        },
+        {
+          "info": {
+            "name": "Get deposit address",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/:coin/deposit",
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "path",
+                "description": "Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+              }
+            ]
+          },
+          "docs": "Returns the deposit address for the specified coin. When `coin` is BTC the `address` is the segwit deposit address and `addressSecondary` carries the legacy address."
+        },
+        {
+          "info": {
+            "name": "Withdraw funds",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://wallet-api.celsius.network/wallet/:coin/withdraw",
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "path",
+                "description": "Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "address",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "amount",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Withdraws the requested amount of the specified coin to the supplied address. The address must satisfy the partner's withdrawal scheme (no address / list of pre-approved addresses / any address)."
+        },
+        {
+          "info": {
+            "name": "Get the withdrawal address for a coin",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/:coin/withdrawal-address",
+            "params": [
+              {
+                "name": "coin",
+                "value": "",
+                "type": "path",
+                "description": "Coin symbol, e.g. BTC, ETH, USDC. See getSupportedCurrencies."
+              }
+            ]
+          },
+          "docs": "Returns the pre-approved withdrawal address configured for the user for the specified coin."
+        },
+        {
+          "info": {
+            "name": "Get all withdrawal addresses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://wallet-api.celsius.network/wallet/withdrawal-addresses"
+          },
+          "docs": "Returns every pre-approved withdrawal address configured for the user, keyed by coin."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
