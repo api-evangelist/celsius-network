@@ -31,6 +31,17 @@ tags:
 - Company
 - Cryptocurrency
 - Digital Assets
+- Financial-Services
+- Lending
+- Custody
+- Wallets
+- Interest
+- KYC
+- Retired
+tags_raw:
+- Company
+- Cryptocurrency
+- Digital Assets
 - Financial Services
 - Lending
 - Custody
@@ -68,6 +79,8 @@ apis:
     https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
   baseURL: https://wallet-api.celsius.network
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -112,6 +125,8 @@ apis:
     https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
   baseURL: https://wallet-api.celsius.network
   tags:
+  - Wallets
+  tags_raw:
   - Wallet
   properties:
   - type: OpenAPI
