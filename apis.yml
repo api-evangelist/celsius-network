@@ -17,6 +17,18 @@ description: >-
   listed on Nasdaq under IOND on 2026-07-28. This profile preserves the API contract as a
   historical record, derived entirely from first-party artifacts that are still publicly
   resolvable.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://celsius.network/_next/static/media/blue_logo.6966df1d.svg
 url: https://raw.githubusercontent.com/api-evangelist/celsius-network/refs/heads/main/apis.yml
 x-type: company
