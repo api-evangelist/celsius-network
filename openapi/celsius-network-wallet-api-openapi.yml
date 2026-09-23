@@ -3,16 +3,7 @@ info:
   title: Celsius Partner Wallet API
   version: 1.0.0
   summary: Partner-facing wallet, interest, KYC and utility API for the Celsius Network platform (retired).
-  description: 'The Celsius Partner API (also called the Wallet API) let Celsius Network partners deposit and withdraw crypto, earn interest, read balances and transactions, run KYC on their users and read utility reference data.
-
-
-    Three partnership types shared one contract. **Omnibus Integration** and **Omnibus Treasury** partners authenticated with `X-Cel-Partner-Token` plus `X-Cel-Api-Key`; **Segmented Integration** partners created a Celsius wallet per end user and authenticated with `X-Cel-Partner-Token` plus `X-Cel-User-Token`. Every response carried an `X-Signature` header the official SDK verified against a per-environment RSA public key.
-
-
-    **This API is retired.** Celsius Network filed for Chapter 11 on 2022-07-13, emerged on 2024-01-31, and shut down its mobile and web apps on 2024-02-29 as part of the wind-down of its business operations. The production host `wallet-api.celsius.network` no longer resolves. This document is preserved as a historical record of the contract.
-
-
-    **Provenance.** Derived by API Evangelist from two first-party artifacts, both fetched 2026-08-02: the Celsius API public Postman collection (https://documenter.gw.postman.com/api/collections/4207695/Rzn6v2mZ) and the official npm package `celsius-sdk@1.0.0` (`lib/consts.js` PATHS and `lib/core.js`). No path, verb, parameter, response shape or example in this document was invented.'
+  description: The Celsius Partner API (also called the Wallet API) let Celsius Network partners deposit and withdraw crypto, earn interest, read balances and transactions, run KYC on their users and read utility reference data.
   contact:
     name: Celsius Network partnerships
     email: partners@celsius.network
@@ -607,66 +598,6 @@ components:
         coin:
           type: string
           description: Coin on which the interest was accrued.
-    DepositAddress:
-      type: object
-      properties:
-        address:
-          type: string
-          description: Deposit address. For BTC this is the segwit address.
-        addressSecondary:
-          type: string
-          description: Legacy deposit address. Present only for BTC.
-    Pagination:
-      type: object
-      description: Splits a collection into pages of per_page items.
-      properties:
-        total:
-          type: number
-          description: Total number of items.
-        pages:
-          type: number
-          description: Total number of pages.
-        current:
-          type: number
-          description: Current page number.
-        per_page:
-          type: number
-          description: Number of items per page.
-        showing:
-          type: string
-          description: Where in the collection the first and last item sit.
-    TransactionStatus:
-      type: object
-      properties:
-        tx_id:
-          type:
-          - string
-          - 'null'
-          description: Transaction hash on the blockchain.
-        state:
-          type: string
-          enum:
-          - processing
-          - unconfirmed
-          - confirmed
-          - rejected
-    BalanceSummary:
-      type: object
-      properties:
-        balance:
-          type: object
-          description: User's balance keyed by coin.
-          additionalProperties:
-            type: string
-    CoinBalance:
-      type: object
-      properties:
-        amount:
-          type: string
-          description: Balance in the requested coin.
-        amount_in_usd:
-          type: string
-          description: Balance converted to USD.
     Transaction:
       type: object
       description: A single transaction of a user in the Celsius system.
@@ -731,16 +662,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Transaction'
-    InterestSummary:
+    DepositAddress:
       type: object
       properties:
-        interest:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AccruedInterest'
-        total_amount_usd:
+        address:
           type: string
-          description: Total USD sum of all accrued interest.
+          description: Deposit address. For BTC this is the segwit address.
+        addressSecondary:
+          type: string
+          description: Legacy deposit address. Present only for BTC.
     WithdrawalAccepted:
       type: object
       properties:
@@ -748,6 +678,25 @@ components:
           type: string
           format: uuid
           description: Transaction id in the Celsius system.
+    Pagination:
+      type: object
+      description: Splits a collection into pages of per_page items.
+      properties:
+        total:
+          type: number
+          description: Total number of items.
+        pages:
+          type: number
+          description: Total number of pages.
+        current:
+          type: number
+          description: Current page number.
+        per_page:
+          type: number
+          description: Number of items per page.
+        showing:
+          type: string
+          description: Where in the collection the first and last item sit.
     Error:
       type: object
       description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
@@ -765,6 +714,48 @@ components:
           - COMPLIANCE_ERROR
           - COIN_NOT_FOUND
           - INSUFFICIENT_FUNDS
+    TransactionStatus:
+      type: object
+      properties:
+        tx_id:
+          type:
+          - string
+          - 'null'
+          description: Transaction hash on the blockchain.
+        state:
+          type: string
+          enum:
+          - processing
+          - unconfirmed
+          - confirmed
+          - rejected
+    CoinBalance:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Balance in the requested coin.
+        amount_in_usd:
+          type: string
+          description: Balance converted to USD.
+    BalanceSummary:
+      type: object
+      properties:
+        balance:
+          type: object
+          description: User's balance keyed by coin.
+          additionalProperties:
+            type: string
+    InterestSummary:
+      type: object
+      properties:
+        interest:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AccruedInterest'
+        total_amount_usd:
+          type: string
+          description: Total USD sum of all accrued interest.
   securitySchemes:
     partnerToken:
       type: apiKey
