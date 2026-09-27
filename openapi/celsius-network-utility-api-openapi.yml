@@ -335,40 +335,6 @@ paths:
                     msg: No free addresses available.
 components:
   schemas:
-    Health:
-      type: object
-      properties:
-        status:
-          type: string
-    InterestRates:
-      type: object
-      properties:
-        interestRates:
-          type: array
-          items:
-            $ref: '#/components/schemas/InterestRate'
-    InterestRate:
-      type: object
-      description: Interest rate for a single coin.
-      properties:
-        coin:
-          type: string
-          description: Interest rate coin.
-        rate:
-          type: string
-          description: Interest rate.
-        currency:
-          type: object
-          description: Currency metadata for the coin.
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-            short:
-              type: string
-            image_url:
-              type: string
     Country:
       type: object
       properties:
@@ -396,13 +362,25 @@ components:
           type: string
         status:
           type: string
-    AmountRollup:
+    InterestRates:
       type: object
-      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
       properties:
-        total_amount_usd:
+        interestRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestRate'
+    Health:
+      type: object
+      properties:
+        status:
           type: string
-      additionalProperties: true
+    Currencies:
+      type: object
+      properties:
+        currencies:
+          type: array
+          items:
+            type: string
     HealthEcho:
       type: object
       properties:
@@ -411,13 +389,6 @@ components:
           - string
           - 'null'
           description: The echoed message.
-    Currencies:
-      type: object
-      properties:
-        currencies:
-          type: array
-          items:
-            type: string
     Statistics:
       type: object
       properties:
@@ -439,6 +410,47 @@ components:
           - string
         interest_amount:
           $ref: '#/components/schemas/AmountRollup'
+    AmountRollup:
+      type: object
+      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
+      properties:
+        total_amount_usd:
+          type: string
+      additionalProperties: true
+    InterestRate:
+      type: object
+      description: Interest rate for a single coin.
+      properties:
+        coin:
+          type: string
+          description: Interest rate coin.
+        rate:
+          type: string
+          description: Interest rate.
+        currency:
+          type: object
+          description: Currency metadata for the coin.
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            short:
+              type: string
+            image_url:
+              type: string
+    SuccessFlag:
+      type: object
+      properties:
+        success:
+          type: boolean
+    Countries:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
     Error:
       type: object
       description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
@@ -456,18 +468,6 @@ components:
           - COMPLIANCE_ERROR
           - COIN_NOT_FOUND
           - INSUFFICIENT_FUNDS
-    SuccessFlag:
-      type: object
-      properties:
-        success:
-          type: boolean
-    Countries:
-      type: object
-      properties:
-        countries:
-          type: array
-          items:
-            $ref: '#/components/schemas/Country'
   securitySchemes:
     partnerToken:
       type: apiKey

@@ -582,6 +582,72 @@ paths:
                     slug: COIN_NOT_FOUND
 components:
   schemas:
+    Pagination:
+      type: object
+      description: Splits a collection into pages of per_page items.
+      properties:
+        total:
+          type: number
+          description: Total number of items.
+        pages:
+          type: number
+          description: Total number of pages.
+        current:
+          type: number
+          description: Current page number.
+        per_page:
+          type: number
+          description: Number of items per page.
+        showing:
+          type: string
+          description: Where in the collection the first and last item sit.
+    CoinBalance:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: Balance in the requested coin.
+        amount_in_usd:
+          type: string
+          description: Balance converted to USD.
+    WithdrawalAddresses:
+      type: object
+      description: Pre-approved withdrawal addresses keyed by coin.
+      additionalProperties:
+        type: string
+    BalanceSummary:
+      type: object
+      properties:
+        balance:
+          type: object
+          description: User's balance keyed by coin.
+          additionalProperties:
+            type: string
+    InterestSummary:
+      type: object
+      properties:
+        interest:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AccruedInterest'
+        total_amount_usd:
+          type: string
+          description: Total USD sum of all accrued interest.
+    TransactionStatus:
+      type: object
+      properties:
+        tx_id:
+          type:
+          - string
+          - 'null'
+          description: Transaction hash on the blockchain.
+        state:
+          type: string
+          enum:
+          - processing
+          - unconfirmed
+          - confirmed
+          - rejected
     AccruedInterest:
       type: object
       description: Interest a user has accrued for a single coin.
@@ -598,6 +664,31 @@ components:
         coin:
           type: string
           description: Coin on which the interest was accrued.
+    WithdrawalAccepted:
+      type: object
+      properties:
+        transaction_id:
+          type: string
+          format: uuid
+          description: Transaction id in the Celsius system.
+    TransactionPage:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        record:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+    DepositAddress:
+      type: object
+      properties:
+        address:
+          type: string
+          description: Deposit address. For BTC this is the segwit address.
+        addressSecondary:
+          type: string
+          description: Legacy deposit address. Present only for BTC.
     Transaction:
       type: object
       description: A single transaction of a user in the Celsius system.
@@ -648,55 +739,6 @@ components:
         interest_amount_in_original_coin:
           type: string
           description: Amount in original_interest_coin before conversion to `coin`.
-    WithdrawalAddresses:
-      type: object
-      description: Pre-approved withdrawal addresses keyed by coin.
-      additionalProperties:
-        type: string
-    TransactionPage:
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        record:
-          type: array
-          items:
-            $ref: '#/components/schemas/Transaction'
-    DepositAddress:
-      type: object
-      properties:
-        address:
-          type: string
-          description: Deposit address. For BTC this is the segwit address.
-        addressSecondary:
-          type: string
-          description: Legacy deposit address. Present only for BTC.
-    WithdrawalAccepted:
-      type: object
-      properties:
-        transaction_id:
-          type: string
-          format: uuid
-          description: Transaction id in the Celsius system.
-    Pagination:
-      type: object
-      description: Splits a collection into pages of per_page items.
-      properties:
-        total:
-          type: number
-          description: Total number of items.
-        pages:
-          type: number
-          description: Total number of pages.
-        current:
-          type: number
-          description: Current page number.
-        per_page:
-          type: number
-          description: Number of items per page.
-        showing:
-          type: string
-          description: Where in the collection the first and last item sit.
     Error:
       type: object
       description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
@@ -714,48 +756,6 @@ components:
           - COMPLIANCE_ERROR
           - COIN_NOT_FOUND
           - INSUFFICIENT_FUNDS
-    TransactionStatus:
-      type: object
-      properties:
-        tx_id:
-          type:
-          - string
-          - 'null'
-          description: Transaction hash on the blockchain.
-        state:
-          type: string
-          enum:
-          - processing
-          - unconfirmed
-          - confirmed
-          - rejected
-    CoinBalance:
-      type: object
-      properties:
-        amount:
-          type: string
-          description: Balance in the requested coin.
-        amount_in_usd:
-          type: string
-          description: Balance converted to USD.
-    BalanceSummary:
-      type: object
-      properties:
-        balance:
-          type: object
-          description: User's balance keyed by coin.
-          additionalProperties:
-            type: string
-    InterestSummary:
-      type: object
-      properties:
-        interest:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AccruedInterest'
-        total_amount_usd:
-          type: string
-          description: Total USD sum of all accrued interest.
   securitySchemes:
     partnerToken:
       type: apiKey

@@ -318,6 +318,14 @@ paths:
                     slug: COIN_NOT_FOUND
 components:
   schemas:
+    CreateUserResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        userToken:
+          type: string
     StatusFlag:
       type: object
       properties:
@@ -340,14 +348,6 @@ components:
           - COMPLIANCE_ERROR
           - COIN_NOT_FOUND
           - INSUFFICIENT_FUNDS
-    CreateUserResponse:
-      type: object
-      properties:
-        userId:
-          type: string
-          format: uuid
-        userToken:
-          type: string
   securitySchemes:
     partnerToken:
       type: apiKey

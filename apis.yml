@@ -60,7 +60,7 @@ tags:
 - Company
 - Cryptocurrency
 - Digital Assets
-- Financial-Services
+- Financial Services
 - Lending
 - Custody
 - Wallets
@@ -78,6 +78,7 @@ tags_raw:
 - Interest
 - KYC
 - Retired
+- Financial-Services
 apis:
 - aid: celsius-network:celsius-network-kyc-api
   name: Celsius Network KYC API
