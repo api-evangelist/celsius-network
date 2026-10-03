@@ -334,6 +334,23 @@ components:
           type: string
         msg:
           type: string
+    Error:
+      type: object
+      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
+      properties:
+        message:
+          type: string
+          description: Human readable error message.
+        msg:
+          type: string
+          description: Legacy human readable error message.
+        slug:
+          type: string
+          description: Stable machine-readable error code.
+          examples:
+          - COMPLIANCE_ERROR
+          - COIN_NOT_FOUND
+          - INSUFFICIENT_FUNDS
     KycStatus:
       type: object
       description: State of a KYC application.
@@ -352,23 +369,6 @@ components:
           description: Rejection reasons keyed by reason name; each value is always `consider`.
           additionalProperties:
             type: string
-    Error:
-      type: object
-      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
-      properties:
-        message:
-          type: string
-          description: Human readable error message.
-        msg:
-          type: string
-          description: Legacy human readable error message.
-        slug:
-          type: string
-          description: Stable machine-readable error code.
-          examples:
-          - COMPLIANCE_ERROR
-          - COIN_NOT_FOUND
-          - INSUFFICIENT_FUNDS
   securitySchemes:
     partnerToken:
       type: apiKey

@@ -335,6 +335,21 @@ paths:
                     msg: No free addresses available.
 components:
   schemas:
+    Countries:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+    HealthEcho:
+      type: object
+      properties:
+        msg:
+          type:
+          - string
+          - 'null'
+          description: The echoed message.
     Country:
       type: object
       properties:
@@ -362,33 +377,18 @@ components:
           type: string
         status:
           type: string
-    InterestRates:
+    AmountRollup:
       type: object
+      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
       properties:
-        interestRates:
-          type: array
-          items:
-            $ref: '#/components/schemas/InterestRate'
+        total_amount_usd:
+          type: string
+      additionalProperties: true
     Health:
       type: object
       properties:
         status:
           type: string
-    Currencies:
-      type: object
-      properties:
-        currencies:
-          type: array
-          items:
-            type: string
-    HealthEcho:
-      type: object
-      properties:
-        msg:
-          type:
-          - string
-          - 'null'
-          description: The echoed message.
     Statistics:
       type: object
       properties:
@@ -410,13 +410,30 @@ components:
           - string
         interest_amount:
           $ref: '#/components/schemas/AmountRollup'
-    AmountRollup:
+    Currencies:
       type: object
-      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
       properties:
-        total_amount_usd:
+        currencies:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
+      properties:
+        message:
           type: string
-      additionalProperties: true
+          description: Human readable error message.
+        msg:
+          type: string
+          description: Legacy human readable error message.
+        slug:
+          type: string
+          description: Stable machine-readable error code.
+          examples:
+          - COMPLIANCE_ERROR
+          - COIN_NOT_FOUND
+          - INSUFFICIENT_FUNDS
     InterestRate:
       type: object
       description: Interest rate for a single coin.
@@ -439,35 +456,18 @@ components:
               type: string
             image_url:
               type: string
+    InterestRates:
+      type: object
+      properties:
+        interestRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestRate'
     SuccessFlag:
       type: object
       properties:
         success:
           type: boolean
-    Countries:
-      type: object
-      properties:
-        countries:
-          type: array
-          items:
-            $ref: '#/components/schemas/Country'
-    Error:
-      type: object
-      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
-      properties:
-        message:
-          type: string
-          description: Human readable error message.
-        msg:
-          type: string
-          description: Legacy human readable error message.
-        slug:
-          type: string
-          description: Stable machine-readable error code.
-          examples:
-          - COMPLIANCE_ERROR
-          - COIN_NOT_FOUND
-          - INSUFFICIENT_FUNDS
   securitySchemes:
     partnerToken:
       type: apiKey

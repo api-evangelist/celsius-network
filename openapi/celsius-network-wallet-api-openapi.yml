@@ -582,39 +582,6 @@ paths:
                     slug: COIN_NOT_FOUND
 components:
   schemas:
-    Pagination:
-      type: object
-      description: Splits a collection into pages of per_page items.
-      properties:
-        total:
-          type: number
-          description: Total number of items.
-        pages:
-          type: number
-          description: Total number of pages.
-        current:
-          type: number
-          description: Current page number.
-        per_page:
-          type: number
-          description: Number of items per page.
-        showing:
-          type: string
-          description: Where in the collection the first and last item sit.
-    CoinBalance:
-      type: object
-      properties:
-        amount:
-          type: string
-          description: Balance in the requested coin.
-        amount_in_usd:
-          type: string
-          description: Balance converted to USD.
-    WithdrawalAddresses:
-      type: object
-      description: Pre-approved withdrawal addresses keyed by coin.
-      additionalProperties:
-        type: string
     BalanceSummary:
       type: object
       properties:
@@ -633,6 +600,11 @@ components:
         total_amount_usd:
           type: string
           description: Total USD sum of all accrued interest.
+    WithdrawalAddresses:
+      type: object
+      description: Pre-approved withdrawal addresses keyed by coin.
+      additionalProperties:
+        type: string
     TransactionStatus:
       type: object
       properties:
@@ -664,13 +636,51 @@ components:
         coin:
           type: string
           description: Coin on which the interest was accrued.
-    WithdrawalAccepted:
+    CoinBalance:
       type: object
       properties:
-        transaction_id:
+        amount:
           type: string
-          format: uuid
-          description: Transaction id in the Celsius system.
+          description: Balance in the requested coin.
+        amount_in_usd:
+          type: string
+          description: Balance converted to USD.
+    Pagination:
+      type: object
+      description: Splits a collection into pages of per_page items.
+      properties:
+        total:
+          type: number
+          description: Total number of items.
+        pages:
+          type: number
+          description: Total number of pages.
+        current:
+          type: number
+          description: Current page number.
+        per_page:
+          type: number
+          description: Number of items per page.
+        showing:
+          type: string
+          description: Where in the collection the first and last item sit.
+    Error:
+      type: object
+      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
+      properties:
+        message:
+          type: string
+          description: Human readable error message.
+        msg:
+          type: string
+          description: Legacy human readable error message.
+        slug:
+          type: string
+          description: Stable machine-readable error code.
+          examples:
+          - COMPLIANCE_ERROR
+          - COIN_NOT_FOUND
+          - INSUFFICIENT_FUNDS
     TransactionPage:
       type: object
       properties:
@@ -680,15 +690,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Transaction'
-    DepositAddress:
-      type: object
-      properties:
-        address:
-          type: string
-          description: Deposit address. For BTC this is the segwit address.
-        addressSecondary:
-          type: string
-          description: Legacy deposit address. Present only for BTC.
     Transaction:
       type: object
       description: A single transaction of a user in the Celsius system.
@@ -739,23 +740,22 @@ components:
         interest_amount_in_original_coin:
           type: string
           description: Amount in original_interest_coin before conversion to `coin`.
-    Error:
+    WithdrawalAccepted:
       type: object
-      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
       properties:
-        message:
+        transaction_id:
           type: string
-          description: Human readable error message.
-        msg:
+          format: uuid
+          description: Transaction id in the Celsius system.
+    DepositAddress:
+      type: object
+      properties:
+        address:
           type: string
-          description: Legacy human readable error message.
-        slug:
+          description: Deposit address. For BTC this is the segwit address.
+        addressSecondary:
           type: string
-          description: Stable machine-readable error code.
-          examples:
-          - COMPLIANCE_ERROR
-          - COIN_NOT_FOUND
-          - INSUFFICIENT_FUNDS
+          description: Legacy deposit address. Present only for BTC.
   securitySchemes:
     partnerToken:
       type: apiKey
