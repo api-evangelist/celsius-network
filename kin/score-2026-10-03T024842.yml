@@ -1,25 +1,23 @@
-# Kin Score artifact — celsius-network — 2026-08-24T171257
+# Kin Score artifact — celsius-network — 2026-10-03T024842
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: celsius-network
-  schema_version: 0.13.0
-  scored_at: '2026-08-24'
-  run_ts: 2026-08-24T171257
-  composite: 44.4
-  band: developing
+  schema_version: 0.23.0
+  scored_at: '2026-10-03'
+  run_ts: 2026-10-03T024842
+  composite: 0.0
+  band: minimal
   facets:
-    discoverability: 81.5
-    contract_quality: 60.9
-    governance: 16.7
-    operational_transparency: 26.3
-    developer_ergonomics: 54.2
-    commercial_clarity: 23.7
-    contract_governance: 16.7
-    access_clarity: 23.7
+    discoverability: 0.0
+    contract_quality: 0.0
+    contract_governance: 0.0
+    operational_transparency: 0.0
+    developer_ergonomics: 0.0
+    access_clarity: 0.0
   agent_readiness:
-    score: 29.0
-    band: agent-ready
+    score: 0.0
+    band: human-only
     dimensions:
       spec_presence: true
       agentic_access: derived
@@ -44,7 +42,7 @@ kin_score:
     applies: true
     regime: Payments
     regime_id: payments
-    score: 32.8
+    score: 18.8
     matched_via: tags
   provenance:
     skills: derived
@@ -52,6 +50,6 @@ kin_score:
     conformance: derived
     contracts:
       total: 4
-      derived: 0
-      coverage: 0.0
-      callable: 100.0
+      derived: 4
+      coverage: 100.0
+      callable: 0.0
