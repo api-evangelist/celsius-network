@@ -326,14 +326,6 @@ paths:
                     slug: COIN_NOT_FOUND
 components:
   schemas:
-    Message:
-      type: object
-      description: Simple message envelope.
-      properties:
-        message:
-          type: string
-        msg:
-          type: string
     Error:
       type: object
       description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
@@ -369,6 +361,14 @@ components:
           description: Rejection reasons keyed by reason name; each value is always `consider`.
           additionalProperties:
             type: string
+    Message:
+      type: object
+      description: Simple message envelope.
+      properties:
+        message:
+          type: string
+        msg:
+          type: string
   securitySchemes:
     partnerToken:
       type: apiKey

@@ -335,13 +335,42 @@ paths:
                     msg: No free addresses available.
 components:
   schemas:
-    Countries:
+    AmountRollup:
+      type: object
+      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
+      properties:
+        total_amount_usd:
+          type: string
+      additionalProperties: true
+    InterestRates:
       type: object
       properties:
-        countries:
+        interestRates:
           type: array
           items:
-            $ref: '#/components/schemas/Country'
+            $ref: '#/components/schemas/InterestRate'
+    SuccessFlag:
+      type: object
+      properties:
+        success:
+          type: boolean
+    Error:
+      type: object
+      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
+      properties:
+        message:
+          type: string
+          description: Human readable error message.
+        msg:
+          type: string
+          description: Legacy human readable error message.
+        slug:
+          type: string
+          description: Stable machine-readable error code.
+          examples:
+          - COMPLIANCE_ERROR
+          - COIN_NOT_FOUND
+          - INSUFFICIENT_FUNDS
     HealthEcho:
       type: object
       properties:
@@ -350,6 +379,40 @@ components:
           - string
           - 'null'
           description: The echoed message.
+    Countries:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+    InterestRate:
+      type: object
+      description: Interest rate for a single coin.
+      properties:
+        coin:
+          type: string
+          description: Interest rate coin.
+        rate:
+          type: string
+          description: Interest rate.
+        currency:
+          type: object
+          description: Currency metadata for the coin.
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            short:
+              type: string
+            image_url:
+              type: string
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
     Country:
       type: object
       properties:
@@ -375,18 +438,6 @@ components:
             type: string
         name:
           type: string
-        status:
-          type: string
-    AmountRollup:
-      type: object
-      description: Total USD amount plus a per-coin amount / amount_usd breakdown.
-      properties:
-        total_amount_usd:
-          type: string
-      additionalProperties: true
-    Health:
-      type: object
-      properties:
         status:
           type: string
     Statistics:
@@ -417,57 +468,6 @@ components:
           type: array
           items:
             type: string
-    Error:
-      type: object
-      description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
-      properties:
-        message:
-          type: string
-          description: Human readable error message.
-        msg:
-          type: string
-          description: Legacy human readable error message.
-        slug:
-          type: string
-          description: Stable machine-readable error code.
-          examples:
-          - COMPLIANCE_ERROR
-          - COIN_NOT_FOUND
-          - INSUFFICIENT_FUNDS
-    InterestRate:
-      type: object
-      description: Interest rate for a single coin.
-      properties:
-        coin:
-          type: string
-          description: Interest rate coin.
-        rate:
-          type: string
-          description: Interest rate.
-        currency:
-          type: object
-          description: Currency metadata for the coin.
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-            short:
-              type: string
-            image_url:
-              type: string
-    InterestRates:
-      type: object
-      properties:
-        interestRates:
-          type: array
-          items:
-            $ref: '#/components/schemas/InterestRate'
-    SuccessFlag:
-      type: object
-      properties:
-        success:
-          type: boolean
   securitySchemes:
     partnerToken:
       type: apiKey
