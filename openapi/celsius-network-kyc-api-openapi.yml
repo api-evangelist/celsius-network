@@ -343,6 +343,14 @@ components:
           - COMPLIANCE_ERROR
           - COIN_NOT_FOUND
           - INSUFFICIENT_FUNDS
+    Message:
+      type: object
+      description: Simple message envelope.
+      properties:
+        message:
+          type: string
+        msg:
+          type: string
     KycStatus:
       type: object
       description: State of a KYC application.
@@ -361,14 +369,6 @@ components:
           description: Rejection reasons keyed by reason name; each value is always `consider`.
           additionalProperties:
             type: string
-    Message:
-      type: object
-      description: Simple message envelope.
-      properties:
-        message:
-          type: string
-        msg:
-          type: string
   securitySchemes:
     partnerToken:
       type: apiKey

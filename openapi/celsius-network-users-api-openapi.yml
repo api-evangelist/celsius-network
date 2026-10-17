@@ -318,6 +318,11 @@ paths:
                     slug: COIN_NOT_FOUND
 components:
   schemas:
+    StatusFlag:
+      type: object
+      properties:
+        status:
+          type: boolean
     Error:
       type: object
       description: Celsius error envelope. `slug` is the stable machine-readable error code and `message` the human-readable text; older responses use `msg` instead of `message`.
@@ -343,11 +348,6 @@ components:
           format: uuid
         userToken:
           type: string
-    StatusFlag:
-      type: object
-      properties:
-        status:
-          type: boolean
   securitySchemes:
     partnerToken:
       type: apiKey
