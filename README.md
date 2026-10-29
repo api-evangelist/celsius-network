@@ -64,20 +64,81 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Celsius Network LLC was a global cryptocurrency lending, custody and yield platform. Through the
-Celsius Partner (Wallet) API, third-party partners could embed Celsius balances, accrued interest,
-transaction history, deposit addresses, withdrawals and KYC verification into their own
-applications.
+> **No longer operating.** This company or product has shut down, been discontinued, or been deprecated. This profile is kept as a historical record and is not maintained or rated.
 
-**The API is retired.** Celsius froze withdrawals on 2022-06-12, filed for Chapter 11 on
-2022-07-13, emerged on 2024-01-31, and shut down its mobile and web applications on 2024-02-29.
-`wallet-api.celsius.network` and `developers.celsius.network` no longer resolve.
+**Status:** retired
 
-This repository preserves the contract as a historical record. Everything here is derived from
-first-party artifacts that are still publicly resolvable — the Celsius public Postman collection
-and the official `celsius-sdk` npm package — both fetched 2026-08-02. Nothing is fabricated.
+Celsius Network LLC was a global cryptocurrency lending, custody and yield platform, founded in 2017, that let retail and institutional customers earn interest on crypto deposits, borrow US dollars and stablecoins against their holdings, and — through the Celsius Partner API — let third-party partners embed that earning power directly into their own applications. The Partner (Wallet) API exposed per-coin balances, accrued interest, transaction history, deposit addresses, withdrawals, KYC verification and utility reference data across three partnership models: Omnibus Integration, Omnibus Treasury, and Segmented Integration, where the partner created and managed a Celsius wallet for each of its own end users. Celsius froze withdrawals on 2022-06-12, filed for Chapter 11 bankruptcy on 2022-07-13, had its plan of reorganization confirmed on 2023-11-09, emerged on 2024-01-31 and shut down its mobile and web applications on 2024-02-29 as part of the wind-down of its business operations. The Partner API and the developer portal are retired and their hosts no longer resolve. The reorganized bitcoin-mining business was spun out as Ionic Digital, a separate company that listed on Nasdaq under IOND on 2026-07-28. This profile preserves the API contract as a historical record, derived entirely from first-party artifacts that are still publicly resolvable.
 
-- Wind-down notice: https://celsius.network/
-- API documentation (Postman): https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api
-- Official SDK: https://www.npmjs.com/package/celsius-sdk
-- Secondary market listing: https://forgeglobal.com/celsius-network_stock/
+**Areas:** Company · Cryptocurrency · Digital Assets · Financial Services · Lending · Custody · Wallets · Interest · KYC · Retired
+
+## Celsius Network on APIs.io (historical record)
+
+Everything profiled for Celsius Network is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/celsius-network/](https://apis.io/providers/celsius-network/)** — or go straight to one of the APIs or properties below.
+
+### APIs (4)
+
+- [Celsius Network KYC API](https://apis.io/apis/celsius-network/celsius-network-kyc-api/) — Know-Your-Customer application submission and status.
+- [Celsius Network Users API](https://apis.io/apis/celsius-network/celsius-network-users-api/) — Creation and maintenance of partner-owned Celsius users (Segmented Integration).
+- [Celsius Network Utility API](https://apis.io/apis/celsius-network/celsius-network-utility-api/) — Reference data, statistics, terms of use and health.
+- [Celsius Network Wallet API](https://apis.io/apis/celsius-network/celsius-network-wallet-api/) — Balances, accrued interest, transactions, deposits and withdrawals.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Celsius Network Agentic Access](https://apis.io/agentic-access/celsius-network/celsius-network-agentic-access/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [Celsius Partner KYC API](https://apis.io/collections/celsius-network/open-celsius-network-kyc-api/)
+- [Celsius Partner Users API](https://apis.io/collections/celsius-network/open-celsius-network-users-api/)
+- [Celsius Partner Utility API](https://apis.io/collections/celsius-network/open-celsius-network-utility-api/)
+- [Celsius Partner Wallet API](https://apis.io/collections/celsius-network/open-celsius-network-wallet-api/)
+- [Celsius API](https://apis.io/collections/celsius-network/postman-celsius-network-partner-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Celsius Network Partner Api Overlay](https://apis.io/overlays/celsius-network/celsius-network-partner-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Celsius Network Authentication](https://apis.io/security/celsius-network/celsius-network-authentication/)
+- [Celsius Network Domain Security](https://apis.io/security/celsius-network/celsius-network-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://celsius.network/)
+- [Documentation](https://www.postman.com/labs-celsiusnet-decents/celsius-public/documentation/tsw6j4r/celsius-api)
+- [API reference](https://documenter.getpostman.com/view/4207695/Rzn6v2mZ)
+- [Support](https://celsiusdistribution.stretto.com/support/solutions)
+- [Privacy policy](https://celsius.network/static/privacy-policy.pdf)
+- [GitHub](https://github.com/CelsiusNetwork)
+
+## API Evangelist rating
+
+**Not rated** — this company is recorded as no longer operating, so no score is published. If it is in fact operating, say so on this repository and it will be re-profiled.
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Celsius Network: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/celsius-network/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
